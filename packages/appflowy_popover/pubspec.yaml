@@ -1,8 +1,7 @@
-name: flutter_dynamic_filter
-description: "A new Flutter package project."
+name: appflowy_popover
+description: A new Flutter package project.
 version: 0.0.1
-homepage:
-publish_to: none
+homepage: https://appflowy.io
 
 environment:
   sdk: ">=3.3.4 <4.0.0"
@@ -11,15 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # https://github.com/AppFlowy-IO/AppFlowy/tree/main/frontend/appflowy_flutter/packages/appflowy_popover
-  appflowy_popover:
-    path: packages/appflowy_popover
-
-  # support dart core
-  intl: any
-  collection: any #array, List method
-  # state management
-  provider: any
 
 dev_dependencies:
   flutter_test:
