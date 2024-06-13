@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: any
   flutter_dynamic_filter:
     path: ../
+  equatable: any
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
+import 'package:flutter_dynamic_filter_example/print.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,12 +33,30 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            SizedBox(
+              width: 100,
+              child: SortMenu(
+                sortOrders: ValueNotifier({
+                  FieldSortOrder('Name', OrderBy.ascending),
+                  FieldSortOrder('Age', OrderBy.descending),
+                }),
+                fields: [
+                  Field(fieldName: 'Name'),
+                  Field(fieldName: 'Age'),
+                  Field(fieldName: 'Phone'),
+                  Field(fieldName: 'Address'),
+                  Field(fieldName: 'Date of Birth'),
+                  Field(fieldName: 'Status'),
+                  Field(fieldName: 'Testttttttttttttttttttttt'),
+                ],
+                onChanged: (sortOrders) {
+                  Printt.white('Sort Orders: $sortOrders');
+                },
+              ),
             ),
           ],
         ),

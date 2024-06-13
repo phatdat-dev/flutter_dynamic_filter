@@ -1,5 +1,4 @@
 library flutter_dynamic_filter;
 
-// import 'package:appflowy_popover/appflowy_popover.dart';
-
-class DynamicFilter {}
+export 'src/features/sort/widget/sort_menu.dart';
+export 'src/models/app_filter.dart';
