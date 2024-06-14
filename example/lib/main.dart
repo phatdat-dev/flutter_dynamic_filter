@@ -58,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 100,
               child: SortMenu(
                 sortOrders: ValueNotifier({
-                  FieldSortOrder('Name', OrderBy.ascending),
-                  FieldSortOrder('Age', OrderBy.descending),
+                  FieldSortOrder(Field(fieldName: 'Name'), OrderBy.ascending),
+                  FieldSortOrder(Field(fieldName: 'Age'), OrderBy.descending),
                 }),
                 fields: fields,
                 onChanged: (sortOrders) {

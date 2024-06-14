@@ -3,7 +3,7 @@ import 'field.dart';
 class Filter extends BaseField {
   final String operator;
 
-  Filter({
+  const Filter({
     required super.fieldName,
     required super.value,
     required this.operator,

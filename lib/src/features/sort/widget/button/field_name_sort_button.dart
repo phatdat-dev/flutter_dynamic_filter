@@ -15,10 +15,8 @@ class _FieldNameSortButtonState extends State<FieldNameSortButton> with SortCont
   @override
   Widget build(BuildContext context) {
     return MyOutlinedButton(
-      label: Text(
-        widget.item.fieldName,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
+      label: FieldIconText(
+        field: widget.item.field,
       ),
       onPressed: () => onShowPopupSort(
         context: context,

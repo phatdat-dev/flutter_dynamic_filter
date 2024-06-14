@@ -13,7 +13,7 @@ class _SortEditorState extends State<SortEditor> with SortControllerStateMixin {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 320,
+      width: 350,
       height: 200,
       // padding: const EdgeInsets.fromLTRB(0, 5, 5, 5),
       child: ValueListenableBuilder(
@@ -76,10 +76,12 @@ class SortItem extends StatelessWidget {
           ),
           const SizedBox(width: 5),
           Expanded(
+            flex: 7,
             child: FieldNameSortButton(item: item),
           ),
           const SizedBox(width: 5),
           Expanded(
+            flex: 6,
             child: ConditionSortButton(item: item),
           ),
           InkWell(
@@ -118,7 +120,7 @@ mixin SortControllerAddStateMixin<T extends StatefulWidget> on SortControllerSta
   void initFields() {
     _fields = controller.fields.toList();
     // remove where data is already in sortOrders
-    _fields.removeWhere((e) => controller.sortOrders.value.any((sort) => sort.fieldName == e.fieldName));
+    _fields.removeWhere((e) => controller.sortOrders.value.any((sort) => sort.field == e));
   }
 
   void onShowPopupSort({

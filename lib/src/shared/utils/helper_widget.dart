@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_dynamic_filter/src/shared/constants/my_constants.dart';
 
 import '../../models/app_filter.dart';
-import '../widget/flowy_svg.dart';
+import '../widget/field_icon_text.dart';
 import 'helper_reflect.dart';
 
 final class HelperWidget {
@@ -120,23 +120,9 @@ final class HelperWidget {
                   height: MyConstants.popupMenuItemHeight,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        FlowySvg(item.fieldType.svgData),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: txtController.text.isEmpty
-                              ? Text(
-                                  item.queryName,
-                                )
-                              : RichText(
-                                  text: TextSpan(
-                                    children: HelperWidget.highlightOccurrences(item.queryName, txtController.text),
-                                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                                  ),
-                                ),
-                        ),
-                      ],
+                    child: FieldIconText(
+                      field: item,
+                      hightLightText: txtController.text,
                     ),
                   ),
                 ),

@@ -13,7 +13,7 @@ class SortController {
   });
 
   void onAddFieldSortOrder(Field field) {
-    sortOrders.value.add(FieldSortOrder(field.fieldName, OrderBy.ascending));
+    sortOrders.value.add(FieldSortOrder(field, OrderBy.ascending));
     sortOrders.notifyListeners();
   }
 
@@ -23,7 +23,7 @@ class SortController {
   }
 
   void onChangedFieldNameSortOrder(FieldSortOrder item, Field e) {
-    item.fieldName = e.fieldName;
+    item.field = e;
   }
 
   void onChangedOrderBySortOrder(FieldSortOrder item, OrderBy e) {
