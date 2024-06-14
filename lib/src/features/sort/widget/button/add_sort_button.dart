@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
-part of '../sort_menu.dart';
+part of '../../sort_button.dart';
 
 class AddSortButton extends StatefulWidget {
   const AddSortButton({

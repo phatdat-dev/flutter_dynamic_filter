@@ -1,4 +1,4 @@
-part of '../sort_menu.dart';
+part of '../../sort_button.dart';
 
 class ConditionSortButton extends StatefulWidget {
   const ConditionSortButton({
@@ -19,9 +19,15 @@ class _ConditionSortButtonState extends State<ConditionSortButton> with SortCont
           .map(
             (e) => PopupMenuItem(
               value: e,
+              height: MyConstants.popupMenuItemHeight,
               child: Row(
                 children: [
-                  Expanded(child: Text(e.name)),
+                  Expanded(
+                    child: Text(
+                      e.name,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
                   if (widget.item.orderBy == e) const Icon(Icons.check, color: Colors.green, size: 16),
                 ],
               ),
@@ -37,7 +43,7 @@ class _ConditionSortButtonState extends State<ConditionSortButton> with SortCont
 
   @override
   Widget build(BuildContext context) {
-    return SortChoiceChip(
+    return MyOutlinedButton(
       label: Text(widget.item.orderBy.name),
       onPressed: () => _showConditionPopupMenu(context),
     );

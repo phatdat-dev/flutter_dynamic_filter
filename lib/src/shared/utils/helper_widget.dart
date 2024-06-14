@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_dynamic_filter/src/shared/constants/my_constants.dart';
+
+import '../../models/app_filter.dart';
+import '../widget/flowy_svg.dart';
+import 'helper_reflect.dart';
 
 final class HelperWidget {
   /// Small utility to measure a widget before actually putting it on screen.
@@ -69,6 +74,78 @@ final class HelperWidget {
       ),
       items: items,
     );
+  }
+
+  static List<Widget> buildSearchListFieldWidget({
+    required BuildContext context,
+    required List<Field> fields,
+    void Function(Field field)? onSelected,
+  }) {
+    final search = ValueNotifier(fields.toList());
+    final txtController = TextEditingController();
+    const padding = 10.0;
+    return [
+      if (fields.length > 10)
+        Container(
+          height: 40,
+          margin: const EdgeInsets.all(padding),
+          child: TextField(
+            controller: txtController,
+            onChanged: (value) => HelperReflect.search(listOrigin: fields, listSearch: search, nameModel: 'queryName', keywordSearch: value),
+            decoration: const InputDecoration(
+              hintText: "Search...",
+              prefixIcon: Icon(Icons.search_rounded),
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      SizedBox(
+        width: 200,
+        height: 300,
+        child: ValueListenableBuilder(
+          valueListenable: search,
+          builder: (context, searchValue, child) => ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: searchValue.length,
+            itemBuilder: (context, index) {
+              final item = searchValue[index];
+              return InkWell(
+                onTap: () {
+                  onSelected?.call(item);
+                  Navigator.of(context).pop();
+                },
+                child: Ink(
+                  height: MyConstants.popupMenuItemHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        FlowySvg(item.fieldType.svgData),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: txtController.text.isEmpty
+                              ? Text(
+                                  item.queryName,
+                                )
+                              : RichText(
+                                  text: TextSpan(
+                                    children: HelperWidget.highlightOccurrences(item.queryName, txtController.text),
+                                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ];
   }
 }
 

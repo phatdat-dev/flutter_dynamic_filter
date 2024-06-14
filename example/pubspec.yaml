@@ -38,6 +38,7 @@ dependencies:
   flutter_dynamic_filter:
     path: ../
   equatable: any
+  flutter_svg: any
 
 dev_dependencies:
   flutter_test:

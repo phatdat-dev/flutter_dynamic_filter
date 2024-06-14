@@ -1,4 +1,4 @@
-part of '../sort_menu.dart';
+part of '../../sort_button.dart';
 
 class FieldNameSortButton extends StatefulWidget {
   const FieldNameSortButton({
@@ -14,7 +14,7 @@ class FieldNameSortButton extends StatefulWidget {
 class _FieldNameSortButtonState extends State<FieldNameSortButton> with SortControllerStateMixin, SortControllerAddStateMixin {
   @override
   Widget build(BuildContext context) {
-    return SortChoiceChip(
+    return MyOutlinedButton(
       label: Text(
         widget.item.fieldName,
         overflow: TextOverflow.ellipsis,

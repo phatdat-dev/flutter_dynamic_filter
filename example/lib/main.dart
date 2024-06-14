@@ -29,6 +29,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final fields = [
+    Field(fieldName: 'Name'),
+    Field(fieldName: 'Age'),
+    Field(fieldName: 'Phone'),
+    Field(fieldName: 'Address'),
+    Field(fieldName: 'Date of Birth'),
+    Field(fieldName: 'Status'),
+    Field(fieldName: 'Testttttttttttttttttttttt'),
+    ...List.generate(
+      13,
+      (index) => Field(
+        fieldName: 'Field $index',
+        fieldType: FieldType.values[index % FieldType.values.length],
+      ),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,20 +61,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   FieldSortOrder('Name', OrderBy.ascending),
                   FieldSortOrder('Age', OrderBy.descending),
                 }),
-                fields: [
-                  Field(fieldName: 'Name'),
-                  Field(fieldName: 'Age'),
-                  Field(fieldName: 'Phone'),
-                  Field(fieldName: 'Address'),
-                  Field(fieldName: 'Date of Birth'),
-                  Field(fieldName: 'Status'),
-                  Field(fieldName: 'Testttttttttttttttttttttt'),
-                ],
+                fields: fields,
                 onChanged: (sortOrders) {
                   Printt.white('Sort Orders: $sortOrders');
                 },
               ),
             ),
+            SizedBox(
+              width: 130,
+              child: AdvancedFilterButton(
+                advancedFilter: ValueNotifier(null),
+                fields: fields,
+                onChanged: (shortFilter) {
+                  Printt.white('Short Filter: $shortFilter');
+                },
+              ),
+            )
           ],
         ),
       ),

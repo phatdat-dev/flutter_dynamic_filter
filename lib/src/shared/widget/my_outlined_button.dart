@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SortChoiceChip extends StatelessWidget {
-  const SortChoiceChip({
+class MyOutlinedButton extends StatelessWidget {
+  const MyOutlinedButton({
     super.key,
     this.leading,
     this.onPressed,

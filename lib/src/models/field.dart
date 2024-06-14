@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_filter/src/models/enum/field_type.dart';
 
 import 'base_model.dart';
 
@@ -13,10 +13,10 @@ class BaseField {
 }
 
 class Field extends BaseField implements SearchDelegateQueryName {
-  final IconData? icon;
+  final FieldType fieldType;
 
   Field({
-    this.icon,
+    this.fieldType = FieldType.RichText,
     required super.fieldName,
     super.value,
   });

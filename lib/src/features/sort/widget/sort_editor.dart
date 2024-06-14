@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
-part of 'sort_menu.dart';
+part of '../sort_button.dart';
 
 class SortEditor extends StatefulWidget {
   const SortEditor({super.key});
@@ -126,76 +126,15 @@ mixin SortControllerAddStateMixin<T extends StatefulWidget> on SortControllerSta
     required void Function(Field field) onSelected,
   }) {
     if (_fields.isNotEmpty) {
+      initFields();
       HelperWidget.showPopupMenu(
         context: context,
-        items: [
-          CustomPopupMenuItem(
-              child: popupBuilder(
-            context: context,
-            onSelected: onSelected,
-          )),
-        ],
+        items: HelperWidget.buildSearchListFieldWidget(
+          context: context,
+          fields: _fields,
+          onSelected: onSelected,
+        ).map((e) => MyPopupMenuItem(child: e)).toList(),
       );
     }
-  }
-
-  Widget popupBuilder({
-    required BuildContext context,
-    required void Function(Field field) onSelected,
-  }) {
-    initFields();
-    final search = ValueNotifier(_fields.toList());
-    final txtController = TextEditingController();
-    return Column(
-      children: [
-        if (_fields.length > 5)
-          Container(
-            height: 40,
-            margin: const EdgeInsets.all(10),
-            child: TextField(
-              controller: txtController,
-              onChanged: (value) => HelperReflect.search(listOrigin: _fields, listSearch: search, nameModel: 'queryName', keywordSearch: value),
-              decoration: const InputDecoration(
-                hintText: "Search...",
-                prefixIcon: Icon(Icons.search_rounded),
-                contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-        SizedBox(
-          width: 200,
-          height: 300,
-          child: ValueListenableBuilder(
-            valueListenable: search,
-            builder: (context, searchValue, child) => ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: searchValue.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: txtController.text.isEmpty
-                      ? Text(
-                          searchValue[index].queryName,
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            children: HelperWidget.highlightOccurrences(searchValue[index].queryName, txtController.text),
-                            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                          ),
-                        ),
-                  onTap: () {
-                    onSelected(searchValue[index]);
-                    Navigator.of(context).pop();
-                  },
-                );
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-    // CreateViewSortList
   }
 }
