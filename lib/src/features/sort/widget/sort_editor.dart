@@ -3,7 +3,11 @@
 part of '../sort_button.dart';
 
 class SortEditor extends StatefulWidget {
-  const SortEditor({super.key});
+  const SortEditor({
+    super.key,
+    required this.constraints,
+  });
+  final BoxConstraints constraints;
 
   @override
   State<SortEditor> createState() => _SortEditorState();
@@ -12,9 +16,8 @@ class SortEditor extends StatefulWidget {
 class _SortEditorState extends State<SortEditor> with SortControllerStateMixin {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 350,
-      height: 200,
+    return ConstrainedBox(
+      constraints: widget.constraints,
       // padding: const EdgeInsets.fromLTRB(0, 5, 5, 5),
       child: ValueListenableBuilder(
         valueListenable: controller.sortOrders,
@@ -23,11 +26,11 @@ class _SortEditorState extends State<SortEditor> with SortControllerStateMixin {
           shrinkWrap: true,
           buildDefaultDragHandles: false,
           footer: const IconTheme(
-            data: IconThemeData(size: 16),
+            data: IconThemeData(size: MyConstants.iconSizeSmall),
             child: Row(
               children: [
                 Expanded(child: AddSortButton()),
-                SizedBox(width: 5),
+                SizedBox(width: MyConstants.paddingField),
                 Expanded(child: DeleteAllSortsButton()),
               ],
             ),
@@ -46,58 +49,6 @@ class _SortEditorState extends State<SortEditor> with SortControllerStateMixin {
   }
 }
 
-class SortItem extends StatelessWidget {
-  const SortItem({
-    super.key,
-    required this.index,
-    required this.item,
-    this.onDeleted,
-  });
-
-  final int index;
-  final FieldSortOrder item;
-  final VoidCallback? onDeleted;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 35,
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(width: 5),
-          ReorderableDragStartListener(
-            index: index,
-            child: const Icon(
-              Icons.drag_indicator,
-              size: 16,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            flex: 7,
-            child: FieldNameSortButton(item: item),
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            flex: 6,
-            child: ConditionSortButton(item: item),
-          ),
-          InkWell(
-            onTap: onDeleted,
-            borderRadius: BorderRadius.circular(20),
-            child: Ink(
-              padding: const EdgeInsets.all(4),
-              child: const Icon(Icons.close, size: 16),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 mixin SortControllerStateMixin<T extends StatefulWidget> on State<T> {
   late final SortController controller;
 
@@ -105,38 +56,5 @@ mixin SortControllerStateMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
     controller = context.read<SortController>();
-  }
-}
-
-mixin SortControllerAddStateMixin<T extends StatefulWidget> on SortControllerStateMixin<T> {
-  late List<Field> _fields;
-
-  @override
-  void initState() {
-    super.initState();
-    initFields();
-  }
-
-  void initFields() {
-    _fields = controller.fields.toList();
-    // remove where data is already in sortOrders
-    _fields.removeWhere((e) => controller.sortOrders.value.any((sort) => sort.field == e));
-  }
-
-  void onShowPopupSort({
-    required BuildContext context,
-    required void Function(Field field) onSelected,
-  }) {
-    if (_fields.isNotEmpty) {
-      initFields();
-      HelperWidget.showPopupMenu(
-        context: context,
-        items: HelperWidget.buildSearchListFieldWidget(
-          context: context,
-          fields: _fields,
-          onSelected: onSelected,
-        ).map((e) => MyPopupMenuItem(child: e)).toList(),
-      );
-    }
   }
 }

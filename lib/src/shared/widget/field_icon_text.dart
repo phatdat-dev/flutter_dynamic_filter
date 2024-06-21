@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/src/models/enum/field_type.dart';
 
 import '../../models/field.dart';
+import '../constants/my_constants.dart';
 import '../utils/helper_widget.dart';
 import 'flowy_svg.dart';
 
@@ -18,8 +18,8 @@ class FieldIconText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        FlowySvg(field.fieldType.svgData),
-        const SizedBox(width: 5),
+        FlowySvg(field.type.svgData),
+        const SizedBox(width: MyConstants.paddingField),
         Expanded(
           child: hightLightText.isEmpty
               ? Text(

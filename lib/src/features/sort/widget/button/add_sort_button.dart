@@ -11,13 +11,16 @@ class AddSortButton extends StatefulWidget {
   State<AddSortButton> createState() => _AddSortButtonState();
 }
 
-class _AddSortButtonState extends State<AddSortButton> with SortControllerStateMixin, SortControllerAddStateMixin {
+class _AddSortButtonState extends State<AddSortButton> with SortControllerStateMixin, PopupSearchListFieldStateMixin {
+  @override
+  (ValueNotifier<Set> list, List<Field> fields) get popUpListField => (controller.sortOrders, controller.fields);
+
   @override
   Widget build(BuildContext context) {
-    return _MyTextButton(
+    return MyTextButton(
       icon: const Icon(Icons.add, color: Colors.green),
       label: "Add Sort",
-      onPressed: () => onShowPopupSort(
+      onPressed: () => showPopupSearchListField(
         context: context,
         onSelected: (field) {
           controller.onAddFieldSortOrder(field);

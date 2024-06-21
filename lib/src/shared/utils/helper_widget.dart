@@ -60,12 +60,14 @@ final class HelperWidget {
   static Future<T?> showPopupMenu<T>({
     required BuildContext context,
     required List<PopupMenuEntry<T>> items,
+    BoxConstraints? constraints,
   }) async {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
     return showMenu<T>(
       context: context,
+      constraints: constraints,
       position: RelativeRect.fromRect(
         // renderBox.localToGlobal(Offset.zero) & renderBox.size,
         // Offset.zero & overlay.size,
@@ -132,6 +134,31 @@ final class HelperWidget {
         ),
       ),
     ];
+  }
+
+  static PopupMenuEntry<T> popupMenuItemCheck<T>({
+    required BuildContext context,
+    T? value,
+    T? selected,
+    String label = '',
+    VoidCallback? onTap,
+  }) {
+    return PopupMenuItem<T>(
+      value: value,
+      height: MyConstants.popupMenuItemHeight,
+      onTap: onTap,
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          if (selected != null && selected == value) const Icon(Icons.check, color: Colors.green, size: MyConstants.iconSizeSmall),
+        ],
+      ),
+    );
   }
 }
 

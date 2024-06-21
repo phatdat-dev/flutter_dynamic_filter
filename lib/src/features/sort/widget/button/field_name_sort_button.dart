@@ -11,17 +11,20 @@ class FieldNameSortButton extends StatefulWidget {
   State<FieldNameSortButton> createState() => _FieldNameSortButtonState();
 }
 
-class _FieldNameSortButtonState extends State<FieldNameSortButton> with SortControllerStateMixin, SortControllerAddStateMixin {
+class _FieldNameSortButtonState extends State<FieldNameSortButton> with SortControllerStateMixin, PopupSearchListFieldStateMixin {
+  @override
+  (ValueNotifier<Set> list, List<Field> fields) get popUpListField => (controller.sortOrders, controller.fields);
+
   @override
   Widget build(BuildContext context) {
     return MyOutlinedButton(
       label: FieldIconText(
         field: widget.item.field,
       ),
-      onPressed: () => onShowPopupSort(
+      onPressed: () => showPopupSearchListField(
         context: context,
         onSelected: (field) {
-          controller.onChangedFieldNameSortOrder(widget.item, field);
+          controller.onChangednameSortOrder(widget.item, field);
           setState(() {});
         },
       ),

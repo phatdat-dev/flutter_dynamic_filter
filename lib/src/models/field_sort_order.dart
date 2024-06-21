@@ -3,11 +3,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dynamic_filter/src/models/field.dart';
 
-import 'enum/filter_enum.dart';
+import 'enum/operator_type/operator_type.dart';
 
 class FieldSortOrder extends Equatable {
   Field field;
-  OrderBy orderBy;
+  OrderByOperator orderBy;
 
   FieldSortOrder(
     this.field,
@@ -15,5 +15,5 @@ class FieldSortOrder extends Equatable {
   );
 
   @override
-  List<Object?> get props => [field.fieldName];
+  List<Object?> get props => [field.name];
 }

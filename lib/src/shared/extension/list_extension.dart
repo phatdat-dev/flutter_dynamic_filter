@@ -1,3 +1,5 @@
+import 'dart:math';
+
 typedef _Condition = bool Function();
 
 extension ListExtension<E> on List<E> {
@@ -61,6 +63,9 @@ extension ListExtension<E> on List<E> {
     if (oldIndex < newIndex) newIndex--;
     insert(newIndex, removeAt(oldIndex));
   }
+
+  // random element
+  E get randomElement => this[Random().nextInt(length)];
 }
 
 extension IterableNullExtension<E> on Iterable<E>? {

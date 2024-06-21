@@ -13,7 +13,7 @@ class SortController {
   });
 
   void onAddFieldSortOrder(Field field) {
-    sortOrders.value.add(FieldSortOrder(field, OrderBy.ascending));
+    sortOrders.value.add(FieldSortOrder(field, OrderByOperator.ascending));
     sortOrders.notifyListeners();
   }
 
@@ -22,11 +22,11 @@ class SortController {
     sortOrders.notifyListeners();
   }
 
-  void onChangedFieldNameSortOrder(FieldSortOrder item, Field e) {
+  void onChangednameSortOrder(FieldSortOrder item, Field e) {
     item.field = e;
   }
 
-  void onChangedOrderBySortOrder(FieldSortOrder item, OrderBy e) {
+  void onChangedOrderBySortOrder(FieldSortOrder item, OrderByOperator e) {
     item.orderBy = e;
   }
 

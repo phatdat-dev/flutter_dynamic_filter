@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
 import 'package:flutter_dynamic_filter_example/print.dart';
 
@@ -30,18 +33,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final fields = [
-    Field(fieldName: 'Name'),
-    Field(fieldName: 'Age'),
-    Field(fieldName: 'Phone'),
-    Field(fieldName: 'Address'),
-    Field(fieldName: 'Date of Birth'),
-    Field(fieldName: 'Status'),
-    Field(fieldName: 'Testttttttttttttttttttttt'),
+    Field(name: 'Name'),
+    Field(name: 'Age', type: FieldType.Number),
+    Field(name: 'Phone', type: FieldType.Text),
+    Field(name: 'Address', type: FieldType.Text),
+    Field(name: 'Date', type: FieldType.Date),
+    Field(name: 'Status', type: FieldType.SingleSelect),
+    Field(name: 'Testttttttttttttttttttttt'),
     ...List.generate(
       13,
       (index) => Field(
-        fieldName: 'Field $index',
-        fieldType: FieldType.values[index % FieldType.values.length],
+        name: 'Field $index',
+        type: FieldType.values[index % FieldType.values.length],
       ),
     ),
   ];
@@ -55,25 +58,28 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 100,
+              width: 110,
               child: SortMenu(
                 sortOrders: ValueNotifier({
-                  FieldSortOrder(Field(fieldName: 'Name'), OrderBy.ascending),
-                  FieldSortOrder(Field(fieldName: 'Age'), OrderBy.descending),
+                  ...[0, 1, 4].map((e) => FieldSortOrder(fields[e], OrderByOperator.ascending)),
                 }),
                 fields: fields,
                 onChanged: (sortOrders) {
-                  Printt.white('Sort Orders: $sortOrders');
+                  Printt.defaultt('Sort Orders: $sortOrders');
                 },
               ),
             ),
             SizedBox(
               width: 130,
               child: AdvancedFilterButton(
-                advancedFilter: ValueNotifier(null),
+                advancedFilter: ValueNotifier([
+                  ...[0, 1, 4].map((e) => FieldAdvancedFilter(field: fields[e])),
+                ]),
                 fields: fields,
                 onChanged: (shortFilter) {
-                  Printt.white('Short Filter: $shortFilter');
+                  final json = jsonEncode(shortFilter);
+                  Clipboard.setData(ClipboardData(text: json));
+                  Printt.defaultt(json);
                 },
               ),
             )
