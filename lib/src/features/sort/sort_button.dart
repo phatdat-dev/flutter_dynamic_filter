@@ -4,6 +4,7 @@ import 'package:flutter_dynamic_filter/src/shared/constants/my_constants.dart';
 import 'package:flutter_dynamic_filter/src/shared/extension/app_extension.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/base_model.dart';
 import '../../models/enum/operator_type/operator_type.dart';
 import '../../models/field.dart';
 import '../../models/field_sort_order.dart';
@@ -28,12 +29,19 @@ class SortMenu extends StatelessWidget {
     required this.sortOrders,
     required this.fields,
     this.onChanged,
+    this.data,
   });
   final ValueNotifier<Set<FieldSortOrder>> sortOrders;
   // List of all fields when user want to sort by field
   final List<Field> fields;
   // can use sortOrders.listen or handle in onChanged
   final void Function(Set<FieldSortOrder> sortOrders)? onChanged;
+  final Iterable<BaseModel>? data;
+
+  void _onPopupDone() {
+    onChanged?.call(sortOrders.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -58,7 +66,7 @@ class SortMenu extends StatelessWidget {
               ),
             ],
           );
-          onChanged?.call(sortOrders.value);
+          _onPopupDone();
         },
       ),
     );

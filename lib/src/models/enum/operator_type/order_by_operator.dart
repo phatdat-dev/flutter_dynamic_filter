@@ -1,6 +1,6 @@
 part of 'operator_type.dart';
 
-enum OrderByOperator implements OperatorType {
+enum OrderByOperator implements OperatorType<Object> {
   ascending,
   descending;
 
@@ -9,4 +9,10 @@ enum OrderByOperator implements OperatorType {
         ascending => "Ascending",
         descending => "Descending",
       };
+
+  @override
+  bool applyFilters(Object? originValue, Object? filterValue) {
+    if (filterValue == null) return true;
+    return true;
+  }
 }

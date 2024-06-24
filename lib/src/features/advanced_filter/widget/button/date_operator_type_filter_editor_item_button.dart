@@ -110,12 +110,11 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
     final dateFieldValue = ((item.value is RelativeToDayDateFieldValue) ? item.value : null) as RelativeToDayDateFieldValue?;
     item.value = RelativeToDayDateFieldValue(
       relativeTo: dateFieldValue?.relativeTo ?? "This",
+      relativeToIndex: dateFieldValue?.relativeToIndex ?? 1,
       unit: dateFieldValue?.unit ?? "Day",
     );
 
-    final list1 = ["Past", "Next", "This"];
     final selected1 = ValueNotifier((item.value as RelativeToDayDateFieldValue).relativeTo);
-    final list2 = ["Day", "Week", "Month", "Year"];
     final selected2 = ValueNotifier((item.value as RelativeToDayDateFieldValue).unit);
 
     Widget buildButton(List<String> list, ValueNotifier<String> current, ValueChanged<String> onChanged) {
@@ -150,17 +149,32 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
       children: [
         Expanded(
           child: buildButton(
-            list1,
+            (item.value as RelativeToDayDateFieldValue).relativeToList,
             selected1,
             (value) {
               item.value = (item.value as RelativeToDayDateFieldValue).copyWith(relativeTo: value);
+              setState(() {});
             },
           ),
         ),
+        if (selected1.value != "This") ...[
+          const SizedBox(width: MyConstants.paddingField),
+          Expanded(
+            child: TextFormField(
+              initialValue: (item.value as RelativeToDayDateFieldValue).relativeToIndex.toString(),
+              keyboardType: TextInputType.number,
+              cursorHeight: 15,
+              decoration: HelperWidget.myInputDecoration(),
+              onChanged: (value) {
+                (item.value as RelativeToDayDateFieldValue).relativeToIndex = int.tryParse(value) ?? 0;
+              },
+            ),
+          ),
+        ],
         const SizedBox(width: MyConstants.paddingField),
         Expanded(
           child: buildButton(
-            list2,
+            (item.value as RelativeToDayDateFieldValue).unitList,
             selected2,
             (value) {
               item.value = (item.value as RelativeToDayDateFieldValue).copyWith(unit: value);

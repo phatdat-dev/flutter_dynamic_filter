@@ -1,6 +1,6 @@
 part of 'operator_type.dart';
 
-enum DateTimeOperator implements OperatorType {
+enum DateTimeOperator implements OperatorType<DateTime> {
   iss,
   isBefore,
   isAfter,
@@ -23,9 +23,31 @@ enum DateTimeOperator implements OperatorType {
         isEmpty => "Is Empty",
         isNotEmpty => "Is Not Empty",
       };
+  @override
+  bool applyFilters(DateTime? originValue, dynamic filterValue) {
+    return switch (this) {
+      iss => originValue == filterValue,
+      isBefore => originValue?.isBefore(filterValue) ?? false,
+      isAfter => originValue?.isAfter(filterValue) ?? false,
+      isOnOrBefore => (originValue?.isBefore(filterValue) ?? false) || (originValue?.isAtSameMomentAs(filterValue) ?? false),
+      isOnOrAfter => (originValue?.isAfter(filterValue) ?? false) || (originValue?.isAtSameMomentAs(filterValue) ?? false),
+      isBetween => _getIsBetween(originValue, filterValue),
+      isRelativeToToDay => _getIsRelativeToToDay(originValue, filterValue),
+      isEmpty => originValue == null,
+      isNotEmpty => originValue != null,
+    };
+  }
+
+  bool _getIsBetween(DateTime? originValue, DateTimeRangeDateFieldValue filterValue) {
+    return originValue?.isBetween(from: filterValue.dateTimeRange.start, to: filterValue.dateTimeRange.end) ?? false;
+  }
+
+  bool _getIsRelativeToToDay(DateTime? originValue, RelativeToDayDateFieldValue filterValue) {
+    return originValue != null ? (filterValue).isRelativeToToDay(originValue) : false;
+  }
 }
 
-enum DateTimeOperatorSelection {
+enum DateTimeOperatorSelection implements OperatorType<DateTime> {
   today,
   yesterday,
   tomorrow,
@@ -37,6 +59,7 @@ enum DateTimeOperatorSelection {
 
   static DateTimeOperatorSelection get defaultType => today;
 
+  @override
   String get label => switch (this) {
         today => "Today",
         yesterday => "Yesterday",
@@ -68,5 +91,11 @@ enum DateTimeOperatorSelection {
       case customDate:
         return now;
     }
+  }
+
+  @override
+  bool applyFilters(DateTime? originValue, dynamic filterValue) {
+    if (filterValue == null) return true;
+    return originValue?.isAtSameMomentAs(filterValue) ?? false;
   }
 }

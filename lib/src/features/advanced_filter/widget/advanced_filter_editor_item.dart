@@ -82,52 +82,19 @@ class _BuildTextFieldInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final item = context.read<FieldAdvancedFilter>();
-    return Row(
-      children: [
-        Expanded(
-          flex: _flex[0],
-          child: const Row(
-            children: [
-              SizedBox(width: 60, child: FilterMustmatchButton()),
-              SizedBox(width: MyConstants.paddingField),
-              Expanded(child: FieldNameFilterButton()),
-            ],
-          ),
-        ),
-        const SizedBox(width: MyConstants.paddingField),
-        Expanded(
-          flex: _flex[1],
-          child: Row(
-            children: [
-              const Expanded(
-                flex: 1,
-                child: FieldOperatorButton(),
-              ),
-              const SizedBox(width: MyConstants.paddingField),
-              Expanded(
-                flex: 2,
-                child: TextFormField(
-                  initialValue: item.value,
-                  cursorHeight: 15,
-                  decoration: const InputDecoration(
-                    hintText: 'Value',
-                    hintStyle: TextStyle(fontSize: 12),
-                    contentPadding: EdgeInsets.all(5),
-                    border: OutlineInputBorder(
-                      borderRadius: MyConstants.borderRadius,
-                    ),
-                  ),
-                  onChanged: (value) => item.value = value,
-                ),
-              ),
-              const SizedBox(width: MyConstants.paddingField),
-              const OptionAdvancedFilterButton(),
-            ],
-          ),
-        ),
-      ],
-    );
+    return _BuildFieldInput(builder: (context) {
+      final item = context.read<FieldAdvancedFilter>();
+      if (item.operatorType == TextOperator.isEmpty || item.operatorType == TextOperator.isNotEmpty) {
+        item.value = null;
+        return const SizedBox();
+      }
+      return TextFormField(
+        initialValue: (item.value is String?) ? item.value?.toString() : null,
+        cursorHeight: 15,
+        decoration: HelperWidget.myInputDecoration(),
+        onChanged: (value) => item.value = value,
+      );
+    });
   }
 }
 
@@ -136,7 +103,29 @@ class _BuildNumberFieldInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final item = context.read<FieldAdvancedFilter>();
+    return _BuildFieldInput(builder: (context) {
+      final item = context.read<FieldAdvancedFilter>();
+      if (item.operatorType == NumberOperator.isEmpty || item.operatorType == NumberOperator.isNotEmpty) {
+        item.value = null;
+        return const SizedBox();
+      }
+      return TextFormField(
+        initialValue: (item.value is num?) ? item.value?.toString() : null,
+        cursorHeight: 15,
+        keyboardType: TextInputType.number,
+        decoration: HelperWidget.myInputDecoration(),
+        onChanged: (value) => item.value = num.tryParse(value),
+      );
+    });
+  }
+}
+
+class _BuildFieldInput extends StatelessWidget {
+  const _BuildFieldInput({required this.builder});
+  final Widget Function(BuildContext context) builder;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -161,20 +150,7 @@ class _BuildNumberFieldInput extends StatelessWidget {
               const SizedBox(width: MyConstants.paddingField),
               Expanded(
                 flex: 2,
-                child: TextFormField(
-                  initialValue: item.value?.toString(),
-                  cursorHeight: 15,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    hintText: 'Value',
-                    hintStyle: TextStyle(fontSize: 12),
-                    contentPadding: EdgeInsets.all(5),
-                    border: OutlineInputBorder(
-                      borderRadius: MyConstants.borderRadius,
-                    ),
-                  ),
-                  onChanged: (value) => item.value = num.tryParse(value),
-                ),
+                child: builder(context),
               ),
               const SizedBox(width: MyConstants.paddingField),
               const OptionAdvancedFilterButton(),

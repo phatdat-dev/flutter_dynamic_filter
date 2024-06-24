@@ -160,6 +160,16 @@ final class HelperWidget {
       ),
     );
   }
+
+  // theme
+  static InputDecoration myInputDecoration() {
+    return const InputDecoration(
+      hintText: 'Value',
+      hintStyle: TextStyle(fontSize: 12),
+      contentPadding: EdgeInsets.all(5),
+      border: OutlineInputBorder(borderRadius: MyConstants.borderRadius),
+    );
+  }
 }
 
 class _MeasurementView extends RenderBox with RenderObjectWithChildMixin<RenderBox> {

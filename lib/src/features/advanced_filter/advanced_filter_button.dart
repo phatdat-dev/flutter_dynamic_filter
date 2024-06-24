@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_filter/src/models/base_model.dart';
 import 'package:flutter_dynamic_filter/src/shared/mixin/popup_search_list_field_statemixin.dart';
 import 'package:flutter_dynamic_filter/src/shared/utils/print.dart';
 import 'package:flutter_dynamic_filter/src/shared/widget/my_outlined_button.dart';
@@ -34,10 +35,16 @@ class AdvancedFilterButton extends StatelessWidget {
     this.onChanged,
     required this.advancedFilter,
     required this.fields,
+    this.data,
   });
   final ValueNotifier<List<FieldAdvancedFilter>> advancedFilter;
   final List<Field> fields;
   final void Function(List<FieldAdvancedFilter> data)? onChanged;
+  final Iterable<BaseModel>? data;
+
+  void _onPopupDone() {
+    onChanged?.call(advancedFilter.value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +70,7 @@ class AdvancedFilterButton extends StatelessWidget {
               ),
             ],
           );
-          onChanged?.call(advancedFilter.value);
+          _onPopupDone();
         },
       ),
     );

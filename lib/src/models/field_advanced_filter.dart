@@ -112,4 +112,9 @@ class FieldAdvancedFilter with ChangeNotifier implements BaseModel<FieldAdvanced
       }
     }
   }
+
+  // apply
+  bool applyFilters(Map<String, dynamic> json) {
+    return operatorType.applyFilters(json[field.name], value);
+  }
 }
