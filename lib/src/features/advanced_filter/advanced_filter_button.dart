@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/src/models/base_field_value/textinput_field_value.dart';
 import 'package:flutter_dynamic_filter/src/shared/mixin/popup_search_list_field_statemixin.dart';
 import 'package:flutter_dynamic_filter/src/shared/utils/print.dart';
 import 'package:flutter_dynamic_filter/src/shared/widget/my_outlined_button.dart';

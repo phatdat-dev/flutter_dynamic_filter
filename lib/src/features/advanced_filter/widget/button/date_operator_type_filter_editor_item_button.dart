@@ -21,6 +21,7 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
       case DateTimeOperator.isBetween:
         child = buildIsBetween();
       case DateTimeOperator.isEmpty || DateTimeOperator.isNotEmpty:
+        item.value = null;
         child = const SizedBox();
       default:
         child = buildDefaultSelection();
@@ -73,7 +74,7 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
               const SizedBox(width: MyConstants.paddingField),
               Expanded(
                 child: Builder(builder: (context) {
-                  final dateSelected = ValueNotifier(value.value);
+                  final dateSelected = ValueNotifier((item.value as DefaultDateFieldValue).value);
                   return ValueListenableBuilder(
                     valueListenable: dateSelected,
                     builder: (context, value, child) {

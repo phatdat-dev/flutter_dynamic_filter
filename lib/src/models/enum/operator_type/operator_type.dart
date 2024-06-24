@@ -3,6 +3,6 @@ part 'number_operator.dart';
 part 'order_by_operator.dart';
 part 'text_operator.dart';
 
-interface class OperatorType {
+abstract class OperatorType implements Enum {
   String get label => throw UnimplementedError();
 }

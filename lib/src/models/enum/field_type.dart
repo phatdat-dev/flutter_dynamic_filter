@@ -64,5 +64,5 @@ enum FieldType {
         SingleSelect => TextOperator.iss,
         MultiSelect => TextOperator.contains,
         Checkbox => TextOperator.iss,
-      } as OperatorType;
+      };
 }
