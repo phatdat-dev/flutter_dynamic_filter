@@ -24,7 +24,7 @@ enum TextOperator implements OperatorType<String> {
 
   @override
   bool applyFilters(String? originValue, dynamic filterValue) {
-    if (filterValue == null) return true;
+    if (filterValue == null && this != isEmpty && this != isNotEmpty) return true;
     originValue = originValue?.toLowerCase();
     filterValue = filterValue.toString().toLowerCase();
 
@@ -35,8 +35,8 @@ enum TextOperator implements OperatorType<String> {
       doesNotContain => !(originValue?.contains(filterValue) ?? false),
       startsWith => originValue?.startsWith(filterValue) ?? false,
       endsWith => originValue?.endsWith(filterValue) ?? false,
-      isEmpty => originValue == null,
-      isNotEmpty => originValue != null,
+      isEmpty => originValue == null || originValue.isEmpty,
+      isNotEmpty => originValue != null && originValue.isNotEmpty,
     };
   }
 }
