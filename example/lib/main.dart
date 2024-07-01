@@ -109,6 +109,22 @@ class _MyHomePageState extends State<MyHomePage> with _MyHomePageStateMixin {
                 SizedBox(
                   width: 130,
                   child: ElevatedButton(
+                    child: const Text("Apply Filter and Sort"),
+                    onPressed: () {
+                      final filterEngine = FilterEngine(
+                        data: originExampleData,
+                        filterGroup: FilterGroup(name: "My Filter", rules: advancedFilter.value),
+                        sortOrders: sortOrders.value,
+                      );
+
+                      final result = filterEngine.applyFilterAndSort();
+                      exampleDataSearch.value = result;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 130,
+                  child: ElevatedButton(
                     child: const Text("fromJson"),
                     onPressed: () {
                       final listJson = [
