@@ -11,7 +11,7 @@ enum OrderByOperator implements OperatorType<Object> {
       };
 
   @override
-  bool applyFilters(Object? originValue, Object? filterValue) {
+  bool applyFilters(Object? originValue, dynamic filterValue) {
     return true;
   }
 }
