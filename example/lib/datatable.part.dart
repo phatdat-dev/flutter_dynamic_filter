@@ -28,7 +28,7 @@ mixin _MyHomePageStateMixin on State<MyHomePage> {
                     .map((e) => DataRow(
                           cells: [
                             DataCell(Text(data.indexOf(e).toString())),
-                            ...fields.map((f) => DataCell(Text(e[f.name].toString()))),
+                            ...fields.map((f) => DataCell(Text(e[f.name]?.toString() ?? ""))),
                           ],
                         ))
                     .toList(),

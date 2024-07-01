@@ -24,6 +24,15 @@ enum NumberOperator implements OperatorType<num> {
 
   @override
   bool applyFilters(num? originValue, dynamic filterValue) {
+    // xét 2 cái này trước
+    switch (this) {
+      case NumberOperator.isEmpty:
+        return originValue == null;
+      case NumberOperator.isNotEmpty:
+        return originValue != null;
+      default:
+    }
+    // nếu là các lựa chọn còn lại thì cho phép ô nhập filterValue được rỗng -> sẽ lấy tất cả data
     if (filterValue == null) return true;
 
     return switch (this) {
@@ -33,8 +42,8 @@ enum NumberOperator implements OperatorType<num> {
       isGreaterThanOrEqual => originValue! >= filterValue,
       isLessThan => originValue! < filterValue,
       isLessThanOrEqual => originValue! <= filterValue,
-      isEmpty => originValue == null,
-      isNotEmpty => originValue != null,
+      isEmpty => originValue == null, // ignore
+      isNotEmpty => originValue != null, // ignore
     };
   }
 }

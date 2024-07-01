@@ -257,7 +257,7 @@ List<Map<String, dynamic>> _generateExampleData() {
   final city = ["Anytown", "Otherville", "Someburg", "Everycity", "Nowhere", "Uptown", "Downtown", "Outatown"];
 
   for (int i = 1; i <= 500; i++) {
-    exampleDataList.add({
+    final data = <String, dynamic>{
       "Name": "${names[random.nextInt(names.length)]} ${names[random.nextInt(names.length)]}",
       "Age": random.nextInt(100) + 18, // Tuổi từ 18 đến 117
       "Phone": "${random.nextInt(1000).toString().padLeft(3, '0')}-${random.nextInt(10000).toString().padLeft(4, '0')}",
@@ -265,7 +265,14 @@ List<Map<String, dynamic>> _generateExampleData() {
           "${random.nextInt(1000) + 1} ${street[random.nextInt(street.length)]} ${streetType[random.nextInt(streetType.length)]}, ${city[random.nextInt(city.length)]}",
       "Date": DateTime.now().add(Duration(days: random.nextInt(30) - 15)),
       "Status": status[random.nextInt(status.length)],
-    });
+    };
+
+    // random null value
+    if (random.nextBool()) {
+      data[data.keys.elementAt(random.nextInt(fields.length))] = null;
+    }
+
+    exampleDataList.add(data);
   }
   return exampleDataList;
 }
