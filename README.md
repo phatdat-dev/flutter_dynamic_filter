@@ -2,6 +2,11 @@
 
 # [Preview Link](https://phatdat-dev.github.io/flutter_dynamic_filter/) 🔗
 
+<div align="center">
+  <img src="assets/readme/advanced_filter_1.png" alt="AdvancedFilter" style="display: inline-block;"/>
+  <img src="assets/readme/sort_1.gif" alt="SortMenu" style="display: inline-block;"/>
+</div>
+
 ### Setup for filter
 
 Create varriable
