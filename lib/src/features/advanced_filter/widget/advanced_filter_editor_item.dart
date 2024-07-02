@@ -11,7 +11,7 @@ class AdvancedFilterEditorItem extends StatelessWidget {
 
     Widget child;
     switch (item.field.type) {
-      // truyền Key vô cho nó force rebuild, mắc công dính const nó ko rebuild
+      // past key to force rebuild widget
       case FieldType.Date:
         child = _BuildDateInput(key: UniqueKey());
         break;
@@ -47,7 +47,7 @@ class _BuildDateInput extends StatelessWidget {
                   child: Row(
                 children: [
                   Expanded(child: FieldNameFilterButton()),
-                  // future here StartDate - EndDate picker
+                  //todo: future here StartDate - EndDate picker
                 ],
               )),
             ],

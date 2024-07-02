@@ -1,39 +1,79 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Document Flutter Dynamic Filter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+# [Preview Link](https://phatdat-dev.github.io/flutter_dynamic_filter/) 🔗
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+### Setup for filter
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Create varriable
 
 ```dart
-const like = 'sample';
+final ValueNotifier<Set<FieldSortOrder>> sortOrders = ValueNotifier({});
+final ValueNotifier<List<FieldAdvancedFilter>> advancedFilter = ValueNotifier([]);
 ```
 
-## Additional information
+Init example Data
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+late final List<Map<String, dynamic>> originExampleData;
+late final ValueNotifier<List<Map<String, dynamic>>> exampleDataSearch;
+
+@override
+void initState() {
+  originExampleData = ExampleData.generateExampleData();
+  exampleDataSearch = ValueNotifier(originExampleData);
+  super.initState();
+}
+```
+
+Widget
+
+```dart
+// Sort Button
+SizedBox(
+  width: 130,
+  child: SortMenu(
+    sortOrders: sortOrders,
+    fields: ExampleData.fields,
+    onChanged: (sortOrders) {
+      final filterEngine = FilterEngine(
+        data: originExampleData,
+        sortOrders: sortOrders,
+      );
+      final result = filterEngine.sortList();
+      exampleDataSearch.value = result;
+    },
+  ),
+),
+// Filter Button
+SizedBox(
+  width: 130,
+  child: AdvancedFilterButton(
+    advancedFilter: advancedFilter,
+    fields: ExampleData.fields,
+    onChanged: (advancedFilter) {
+      final filterEngine = FilterEngine(
+        data: originExampleData,
+        filterGroup: FilterGroup(name: "My Filter", rules: advancedFilter),
+      );
+      final result = filterEngine.filterList();
+      exampleDataSearch.value = result;
+    },
+  ),
+),
+// Sort & Filter
+SizedBox(
+  width: 130,
+  child: ElevatedButton(
+    child: const Text("Apply Filter and Sort"),
+    onPressed: () {
+      final filterEngine = FilterEngine(
+        data: originExampleData,
+        filterGroup: FilterGroup(name: "Name of your filter", rules: advancedFilter.value),
+        sortOrders: sortOrders.value,
+      );
+      final result = filterEngine.applyFilterAndSort();
+      exampleDataSearch.value = result;
+    },
+  ),
+)
+```

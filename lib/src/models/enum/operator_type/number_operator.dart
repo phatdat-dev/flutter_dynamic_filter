@@ -35,15 +35,24 @@ enum NumberOperator implements OperatorType<num> {
     // nếu là các lựa chọn còn lại thì cho phép ô nhập filterValue được rỗng -> sẽ lấy tất cả data
     if (filterValue == null) return true;
 
+    if (originValue != null) {
+      switch (this) {
+        case NumberOperator.isGreaterThan:
+          return originValue > filterValue;
+        case NumberOperator.isGreaterThanOrEqual:
+          return originValue >= filterValue;
+        case NumberOperator.isLessThan:
+          return originValue < filterValue;
+        case NumberOperator.isLessThanOrEqual:
+          return originValue <= filterValue;
+        default:
+      }
+    }
+
     return switch (this) {
       iss => originValue == filterValue,
       isNot => originValue != filterValue,
-      isGreaterThan => originValue! > filterValue,
-      isGreaterThanOrEqual => originValue! >= filterValue,
-      isLessThan => originValue! < filterValue,
-      isLessThanOrEqual => originValue! <= filterValue,
-      isEmpty => originValue == null, // ignore
-      isNotEmpty => originValue != null, // ignore
+      _ => false,
     };
   }
 }
