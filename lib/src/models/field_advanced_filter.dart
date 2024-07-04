@@ -115,6 +115,10 @@ class FieldAdvancedFilter with ChangeNotifier implements BaseModel<FieldAdvanced
 
   // apply
   bool applyFilters(Map<String, dynamic> json) {
-    return operatorType.applyFilters(json[field.name], value);
+    final data = json[field.name];
+    // allow String is DateTime iso8601
+    final tryParseDateTime = DateTime.tryParse(data);
+    if (data is String && tryParseDateTime != null) return operatorType.applyFilters(tryParseDateTime, value);
+    return operatorType.applyFilters(data, value);
   }
 }
