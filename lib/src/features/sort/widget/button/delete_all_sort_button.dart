@@ -1,4 +1,4 @@
-part of '../../sort_button.dart';
+part of '../../sort_anchor.dart';
 
 class DeleteAllSortsButton extends StatelessWidget {
   const DeleteAllSortsButton({super.key});

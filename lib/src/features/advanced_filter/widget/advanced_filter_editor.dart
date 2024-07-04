@@ -1,4 +1,4 @@
-part of '../advanced_filter_button.dart';
+part of '../advanced_filter_anchor.dart';
 
 class AdvancedFilterEditor extends StatefulWidget {
   const AdvancedFilterEditor({
@@ -14,34 +14,44 @@ class AdvancedFilterEditor extends StatefulWidget {
 class _AdvancedFilterEditorState extends State<AdvancedFilterEditor> with AdvancedFilterControllerStateMixin {
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: widget.constraints,
-      child: ValueListenableBuilder(
-        valueListenable: controller.advancedFilter,
-        builder: (context, value, child) => ReorderableListView(
-          onReorder: (oldIndex, newIndex) {},
-          shrinkWrap: true,
-          buildDefaultDragHandles: false,
-          footer: const IconTheme(
-            data: IconThemeData(size: MyConstants.iconSizeSmall),
-            child: Row(
-              children: [
-                Expanded(child: AddAdvancedFilterButton()),
-                SizedBox(width: MyConstants.paddingField),
-                Expanded(child: DeleteAllAdvancedFilterButton()),
-              ],
-            ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: ConstrainedBox(
+        constraints: widget.constraints,
+        child: ValueListenableBuilder(
+          valueListenable: controller.advancedFilter,
+          builder: (context, value, child) => ReorderableListView(
+            onReorder: (oldIndex, newIndex) {},
+            shrinkWrap: true,
+            buildDefaultDragHandles: false,
+            footer: _buildFooter(),
+            children: value.mapIndexed((index, item) {
+              return MultiProvider(
+                key: UniqueKey(),
+                providers: [
+                  ChangeNotifierProvider.value(value: item),
+                  Provider.value(value: index),
+                ],
+                builder: (context, _) => const AdvancedFilterEditorItem(),
+              );
+            }).toList(),
           ),
-          children: value.mapIndexed((index, item) {
-            return MultiProvider(
-              key: UniqueKey(),
-              providers: [
-                ChangeNotifierProvider.value(value: item),
-                Provider.value(value: index),
-              ],
-              builder: (context, _) => const AdvancedFilterEditorItem(),
-            );
-          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFooter() {
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: IconTheme(
+        data: IconThemeData(size: MyConstants.iconSizeSmall),
+        child: Row(
+          children: [
+            Expanded(child: AddAdvancedFilterButton()),
+            SizedBox(width: MyConstants.paddingField),
+            Expanded(child: DeleteAllAdvancedFilterButton()),
+          ],
         ),
       ),
     );

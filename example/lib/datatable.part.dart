@@ -19,19 +19,22 @@ mixin _MyHomePageDataTableStateMixin on State<MyHomePage> {
         builder: (context, data, child) {
           return ListView(
             children: [
-              DataTable(
-                columns: [
-                  const DataColumn(label: Text("Index")),
-                  ...ExampleData.fields.map((e) => DataColumn(label: Text(e.name))),
-                ],
-                rows: data
-                    .map((e) => DataRow(
-                          cells: [
-                            DataCell(Text(data.indexOf(e).toString())),
-                            ...ExampleData.fields.map((f) => DataCell(Text(e[f.name]?.toString() ?? ""))),
-                          ],
-                        ))
-                    .toList(),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: [
+                    const DataColumn(label: Text("Index")),
+                    ...ExampleData.fields.map((e) => DataColumn(label: Text(e.name))),
+                  ],
+                  rows: data
+                      .map((e) => DataRow(
+                            cells: [
+                              DataCell(Text(data.indexOf(e).toString())),
+                              ...ExampleData.fields.map((f) => DataCell(Text(e[f.name]?.toString() ?? ""))),
+                            ],
+                          ))
+                      .toList(),
+                ),
               ),
             ],
           );

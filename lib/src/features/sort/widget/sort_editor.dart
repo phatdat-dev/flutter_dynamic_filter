@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
-part of '../sort_button.dart';
+part of '../sort_anchor.dart';
 
 class SortEditor extends StatefulWidget {
   const SortEditor({

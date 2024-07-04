@@ -29,8 +29,8 @@ part 'widget/button/field_operator_button.dart';
 part 'widget/button/filter_mustmatch_button.dart';
 part 'widget/button/option_advanced_filter_button.dart';
 
-class AdvancedFilterButton extends StatelessWidget {
-  const AdvancedFilterButton({
+class AdvancedFilterAnchor extends StatelessWidget {
+  const AdvancedFilterAnchor({
     super.key,
     this.onChanged,
     required this.advancedFilter,
@@ -42,9 +42,65 @@ class AdvancedFilterButton extends StatelessWidget {
   final void Function(List<FieldAdvancedFilter> data)? onChanged;
   final Iterable<BaseModel>? data;
 
+  factory AdvancedFilterAnchor.button({
+    Key? key,
+    required ValueNotifier<List<FieldAdvancedFilter>> advancedFilter,
+    required List<Field> fields,
+    void Function(List<FieldAdvancedFilter> data)? onChanged,
+    Iterable<BaseModel>? data,
+  }) {
+    return _AdvancedFilterAnchorButton(
+      key: key,
+      advancedFilter: advancedFilter,
+      fields: fields,
+      onChanged: onChanged,
+      data: data,
+    );
+  }
+
+  void _onPressed(BuildContext context) async {
+    final constraints = BoxConstraints.tight(const Size(700, 320));
+
+    await HelperWidget.showPopupMenu(
+      context: context,
+      constraints: constraints,
+      items: [
+        MyPopupMenuItem(
+          child: Provider(
+            create: (context) => AdvancedFilterController(
+              advancedFilter: advancedFilter,
+              fields: fields,
+            ),
+            builder: (context, child) => AdvancedFilterEditor(constraints: constraints),
+          ),
+        ),
+      ],
+    );
+
+    _onPopupDone();
+  }
+
   void _onPopupDone() {
     onChanged?.call(advancedFilter.value);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () => _onPressed(context),
+      icon: const Icon(Icons.filter_alt_outlined),
+    );
+  }
+}
+
+class _AdvancedFilterAnchorButton extends AdvancedFilterAnchor {
+  const _AdvancedFilterAnchorButton({
+    super.key,
+    required super.advancedFilter,
+    required super.fields,
+    super.onChanged,
+    super.data,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,25 +109,7 @@ class AdvancedFilterButton extends StatelessWidget {
       builder: (context, value, child) => MyOutlinedButton(
         label: value.isNotEmpty ? Text("${value.length} rules") : const Text('Add Filter'),
         leading: value.isNotEmpty ? const Icon(Icons.filter_alt_outlined) : const Icon(Icons.add_outlined),
-        onPressed: () async {
-          final constraints = BoxConstraints.tight(const Size(700, 320));
-          await HelperWidget.showPopupMenu(
-            context: context,
-            constraints: constraints,
-            items: [
-              MyPopupMenuItem(
-                child: Provider(
-                  create: (context) => AdvancedFilterController(
-                    advancedFilter: advancedFilter,
-                    fields: fields,
-                  ),
-                  builder: (context, child) => AdvancedFilterEditor(constraints: constraints),
-                ),
-              ),
-            ],
-          );
-          _onPopupDone();
-        },
+        onPressed: () => _onPressed(context),
       ),
     );
   }

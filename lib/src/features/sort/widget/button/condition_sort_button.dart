@@ -1,4 +1,4 @@
-part of '../../sort_button.dart';
+part of '../../sort_anchor.dart';
 
 class ConditionSortButton extends StatefulWidget {
   const ConditionSortButton({

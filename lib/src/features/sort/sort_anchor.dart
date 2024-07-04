@@ -23,13 +23,14 @@ part 'widget/button/field_name_sort_button.dart';
 part 'widget/sort_editor.dart';
 part 'widget/sort_editor_item.dart';
 
-class SortMenu extends StatelessWidget {
-  const SortMenu({
+class SortAnchor extends StatelessWidget {
+  const SortAnchor({
     super.key,
     required this.sortOrders,
     required this.fields,
     this.onChanged,
     this.data,
+    this.icon = const Icon(Icons.sort),
   });
   final ValueNotifier<Set<FieldSortOrder>> sortOrders;
   // List of all fields when user want to sort by field
@@ -37,6 +38,45 @@ class SortMenu extends StatelessWidget {
   // can use sortOrders.listen or handle in onChanged
   final void Function(Set<FieldSortOrder> sortOrders)? onChanged;
   final Iterable<BaseModel>? data;
+  final Icon icon;
+
+  factory SortAnchor.button({
+    Key? key,
+    required ValueNotifier<Set<FieldSortOrder>> sortOrders,
+    required List<Field> fields,
+    void Function(Set<FieldSortOrder> sortOrders)? onChanged,
+    Iterable<BaseModel>? data,
+    Icon icon = const Icon(Icons.sort),
+  }) {
+    return _SortAnchorButton(
+      key: key,
+      sortOrders: sortOrders,
+      fields: fields,
+      onChanged: onChanged,
+      data: data,
+      icon: icon,
+    );
+  }
+
+  void _onPressed(BuildContext context) async {
+    final constraints = BoxConstraints.tight(const Size(300, 200));
+    await HelperWidget.showPopupMenu(
+      context: context,
+      constraints: constraints,
+      items: [
+        MyPopupMenuItem(
+          child: Provider(
+            create: (context) => SortController(
+              sortOrders: sortOrders,
+              fields: fields,
+            ),
+            builder: (context, child) => SortEditor(constraints: constraints),
+          ),
+        ),
+      ],
+    );
+    _onPopupDone();
+  }
 
   void _onPopupDone() {
     onChanged?.call(sortOrders.value);
@@ -44,30 +84,31 @@ class SortMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () => _onPressed(context),
+      icon: icon,
+    );
+  }
+}
+
+class _SortAnchorButton extends SortAnchor {
+  const _SortAnchorButton({
+    super.key,
+    required super.sortOrders,
+    required super.fields,
+    super.onChanged,
+    super.data,
+    super.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: sortOrders,
       builder: (context, value, child) => MyOutlinedButton(
         label: value.isNotEmpty ? Text('${value.length} Sort') : const Text('Sort'),
-        leading: const Icon(Icons.sort),
-        onPressed: () async {
-          final constraints = BoxConstraints.tight(const Size(300, 200));
-          await HelperWidget.showPopupMenu(
-            context: context,
-            constraints: constraints,
-            items: [
-              MyPopupMenuItem(
-                child: Provider(
-                  create: (context) => SortController(
-                    sortOrders: sortOrders,
-                    fields: fields,
-                  ),
-                  builder: (context, child) => SortEditor(constraints: constraints),
-                ),
-              ),
-            ],
-          );
-          _onPopupDone();
-        },
+        leading: icon,
+        onPressed: () => _onPressed(context),
       ),
     );
   }

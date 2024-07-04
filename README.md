@@ -36,7 +36,7 @@ Widget
 // Sort Button
 SizedBox(
   width: 130,
-  child: SortMenu(
+  child: SortAnchor.button(
     sortOrders: sortOrders,
     fields: ExampleData.fields,
     onChanged: (sortOrders) {
@@ -52,7 +52,7 @@ SizedBox(
 // Filter Button
 SizedBox(
   width: 130,
-  child: AdvancedFilterButton(
+  child: AdvancedFilterAnchor.button(
     advancedFilter: advancedFilter,
     fields: ExampleData.fields,
     onChanged: (advancedFilter) {

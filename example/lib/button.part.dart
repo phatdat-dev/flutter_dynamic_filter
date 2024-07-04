@@ -15,42 +15,68 @@ mixin _MyHomePageButtonStateMixin on State<MyHomePage> implements _MyHomePageDat
     super.initState();
   }
 
+  void _sortOnchanged(Set<FieldSortOrder> sortOrders) {
+    final filterEngine = FilterEngine(
+      data: originExampleData,
+      sortOrders: sortOrders,
+    );
+
+    final result = filterEngine.sortList();
+    exampleDataSearch.value = result;
+  }
+
+  void _filterOnchanged(List<FieldAdvancedFilter> advancedFilter) {
+    final filterEngine = FilterEngine(
+      data: originExampleData,
+      filterGroup: FilterGroup(name: "My Filter", rules: advancedFilter),
+    );
+
+    final result = filterEngine.filterList();
+    exampleDataSearch.value = result;
+  }
+
   Widget _buildButton() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            width: 110,
-            child: SortMenu(
-              sortOrders: sortOrders,
-              fields: ExampleData.fields,
-              onChanged: (sortOrders) {
-                final filterEngine = FilterEngine(
-                  data: originExampleData,
-                  sortOrders: sortOrders,
-                );
-
-                final result = filterEngine.sortList();
-                exampleDataSearch.value = result;
-              },
-            ),
+          const Text("Icon"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SortAnchor(
+                sortOrders: sortOrders,
+                fields: ExampleData.fields,
+                onChanged: _sortOnchanged,
+              ),
+              AdvancedFilterAnchor(
+                advancedFilter: advancedFilter,
+                fields: ExampleData.fields,
+                onChanged: _filterOnchanged,
+              ),
+            ],
           ),
-          SizedBox(
-            width: 130,
-            child: AdvancedFilterButton(
-              advancedFilter: advancedFilter,
-              fields: ExampleData.fields,
-              onChanged: (advancedFilter) {
-                final filterEngine = FilterEngine(
-                  data: originExampleData,
-                  filterGroup: FilterGroup(name: "My Filter", rules: advancedFilter),
-                );
-
-                final result = filterEngine.filterList();
-                exampleDataSearch.value = result;
-              },
-            ),
+          const Text("Button"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 110,
+                child: SortAnchor.button(
+                  sortOrders: sortOrders,
+                  fields: ExampleData.fields,
+                  onChanged: _sortOnchanged,
+                ),
+              ),
+              SizedBox(
+                width: 130,
+                child: AdvancedFilterAnchor.button(
+                  advancedFilter: advancedFilter,
+                  fields: ExampleData.fields,
+                  onChanged: _filterOnchanged,
+                ),
+              ),
+            ],
           ),
           SizedBox(
             width: 130,

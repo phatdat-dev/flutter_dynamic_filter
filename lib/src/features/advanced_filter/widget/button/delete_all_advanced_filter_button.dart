@@ -1,4 +1,4 @@
-part of '../../advanced_filter_button.dart';
+part of '../../advanced_filter_anchor.dart';
 
 class DeleteAllAdvancedFilterButton extends StatelessWidget {
   const DeleteAllAdvancedFilterButton({super.key});

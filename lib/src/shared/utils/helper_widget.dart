@@ -161,6 +161,47 @@ final class HelperWidget {
     );
   }
 
+  static Future<T?> showBottomSheet<T>({
+    required BuildContext context,
+    required WidgetBuilder builder,
+  }) async {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent, //
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.9,
+          minChildSize: 0.5,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) {
+            return Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).hintColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    height: 4,
+                    width: 40,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                  Expanded(child: builder(context)),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   // theme
   static InputDecoration myInputDecoration() {
     return const InputDecoration(
