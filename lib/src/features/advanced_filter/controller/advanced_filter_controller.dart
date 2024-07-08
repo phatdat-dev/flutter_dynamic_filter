@@ -50,7 +50,7 @@ class AdvancedFilterController {
 
   void onDuplicateAdvancedFilter(FieldAdvancedFilter item) {
     advancedFilter
-      ..value.add(item)
+      ..value.add(item.copyWith())
       ..notifyListeners();
   }
 

@@ -49,10 +49,13 @@ enum NumberOperator implements OperatorType<num> {
       }
     }
 
-    return switch (this) {
-      iss => originValue == filterValue,
-      isNot => originValue != filterValue,
-      _ => false,
-    };
+    switch (this) {
+      case NumberOperator.iss:
+        return originValue == filterValue;
+      case NumberOperator.isNot:
+        return originValue != filterValue;
+      default:
+    }
+    return false;
   }
 }

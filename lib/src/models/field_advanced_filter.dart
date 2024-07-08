@@ -56,6 +56,19 @@ class FieldAdvancedFilter with ChangeNotifier implements BaseModel<FieldAdvanced
     return data;
   }
 
+  //copyWith
+  FieldAdvancedFilter copyWith({
+    FilterMustMatch? mustMatch,
+    Field? field,
+    dynamic value,
+  }) {
+    return FieldAdvancedFilter(
+      mustMatch: mustMatch ?? this.mustMatch,
+      field: field ?? this.field.copyWith(),
+      value: value ?? this.value,
+    );
+  }
+
   // @override
   // List<Object?> get props => [field];
 
@@ -117,7 +130,7 @@ class FieldAdvancedFilter with ChangeNotifier implements BaseModel<FieldAdvanced
   bool applyFilters(Map<String, dynamic> json) {
     final data = json[field.name];
     // allow String is DateTime iso8601
-    final tryParseDateTime = DateTime.tryParse(data);
+    final tryParseDateTime = DateTime.tryParse(data.toString());
     if (data is String && tryParseDateTime != null) return operatorType.applyFilters(tryParseDateTime, value);
     return operatorType.applyFilters(data, value);
   }
