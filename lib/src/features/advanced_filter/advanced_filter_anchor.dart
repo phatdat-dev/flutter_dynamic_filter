@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_filter/src/models/base_model.dart';
 import 'package:flutter_dynamic_filter/src/shared/mixin/popup_search_list_field_statemixin.dart';
-import 'package:flutter_dynamic_filter/src/shared/utils/print.dart';
 import 'package:flutter_dynamic_filter/src/shared/widget/my_outlined_button.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -61,21 +60,29 @@ class AdvancedFilterAnchor extends StatelessWidget {
   void _onPressed(BuildContext context) async {
     final constraints = BoxConstraints.tight(const Size(700, 320));
 
-    await HelperWidget.showPopupMenu(
-      context: context,
-      constraints: constraints,
-      items: [
-        MyPopupMenuItem(
-          child: Provider(
-            create: (context) => AdvancedFilterController(
-              advancedFilter: advancedFilter,
-              fields: fields,
-            ),
-            builder: (context, child) => AdvancedFilterEditor(constraints: constraints),
+    final size = MediaQuery.sizeOf(context);
+    if (size.width < constraints.maxWidth) {
+      await HelperWidget.showSlidingBottomSheett(
+        context: context,
+        builder: (context, scrollController) => buildProvider(
+          AdvancedFilterEditor(
+            scrollController: scrollController,
           ),
         ),
-      ],
-    );
+      );
+    } else {
+      await HelperWidget.showPopupMenu(
+        context: context,
+        constraints: constraints,
+        items: [
+          MyPopupMenuItem(
+            child: buildProvider(
+              AdvancedFilterEditor(constraints: constraints),
+            ),
+          ),
+        ],
+      );
+    }
 
     _onPopupDone();
   }
@@ -91,6 +98,14 @@ class AdvancedFilterAnchor extends StatelessWidget {
       icon: const Icon(Icons.filter_alt_outlined),
     );
   }
+
+  Widget buildProvider(Widget child) => Provider(
+        create: (context) => AdvancedFilterController(
+          advancedFilter: advancedFilter,
+          fields: fields,
+        ),
+        builder: (context, _) => child,
+      );
 }
 
 class _AdvancedFilterAnchorButton extends AdvancedFilterAnchor {

@@ -211,6 +211,49 @@ final class HelperWidget {
       border: OutlineInputBorder(borderRadius: MyConstants.borderRadius),
     );
   }
+
+  static Future<T?> showSlidingBottomSheett<T>({
+    required BuildContext context,
+    required ScrollableWidgetBuilder builder,
+  }) {
+    final headerWidget = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).hintColor,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          height: 4,
+          width: 40,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+        ),
+      ],
+    );
+
+    return showModalBottomSheet<T>(
+      context: context,
+      isScrollControlled: true, //
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.4,
+        minChildSize: 0.4,
+        maxChildSize: 0.9,
+        expand: false,
+        snap: true,
+        builder: (context, scrollController) {
+          return ListView(
+            controller: scrollController,
+            // primary: false,
+            shrinkWrap: true,
+            children: [
+              headerWidget,
+              builder(context, scrollController),
+            ],
+          );
+        },
+      ),
+    );
+  }
 }
 
 class _MeasurementView extends RenderBox with RenderObjectWithChildMixin<RenderBox> {

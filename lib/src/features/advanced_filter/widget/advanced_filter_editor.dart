@@ -3,9 +3,11 @@ part of '../advanced_filter_anchor.dart';
 class AdvancedFilterEditor extends StatefulWidget {
   const AdvancedFilterEditor({
     super.key,
-    required this.constraints,
+    this.constraints,
+    this.scrollController,
   });
-  final BoxConstraints constraints;
+  final BoxConstraints? constraints;
+  final ScrollController? scrollController;
 
   @override
   State<AdvancedFilterEditor> createState() => _AdvancedFilterEditorState();
@@ -13,30 +15,42 @@ class AdvancedFilterEditor extends StatefulWidget {
 
 class _AdvancedFilterEditorState extends State<AdvancedFilterEditor> with AdvancedFilterControllerStateMixin {
   @override
+  void initState() {
+    super.initState();
+    controller.scrollController = widget.scrollController ?? ScrollController();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
-        constraints: widget.constraints,
-        child: ValueListenableBuilder(
-          valueListenable: controller.advancedFilter,
-          builder: (context, value, child) => ReorderableListView(
-            onReorder: (oldIndex, newIndex) {},
-            shrinkWrap: true,
-            buildDefaultDragHandles: false,
-            footer: _buildFooter(),
-            children: value.mapIndexed((index, item) {
-              return MultiProvider(
-                key: UniqueKey(),
-                providers: [
-                  ChangeNotifierProvider.value(value: item),
-                  Provider.value(value: index),
-                ],
-                builder: (context, _) => const AdvancedFilterEditorItem(),
-              );
-            }).toList(),
-          ),
-        ),
+        constraints: widget.constraints ?? BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width),
+        child: _buildContent(),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return ValueListenableBuilder(
+      valueListenable: controller.advancedFilter,
+      builder: (context, value, child) => ReorderableListView(
+        onReorder: (oldIndex, newIndex) {},
+        scrollController: widget.scrollController == null ? controller.scrollController : null,
+        shrinkWrap: true,
+        primary: false,
+        buildDefaultDragHandles: false,
+        footer: _buildFooter(),
+        children: value.mapIndexed((index, item) {
+          return MultiProvider(
+            key: UniqueKey(),
+            providers: [
+              ChangeNotifierProvider.value(value: item),
+              Provider.value(value: index),
+            ],
+            builder: (context, _) => const AdvancedFilterEditorItem(),
+          );
+        }).toList(),
       ),
     );
   }

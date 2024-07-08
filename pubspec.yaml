@@ -11,9 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # https://github.com/AppFlowy-IO/AppFlowy/tree/main/frontend/appflowy_flutter/packages/appflowy_popover
-  # appflowy_popover:
-  #   path: packages/appflowy_popover
 
   # support dart core
   intl: any

@@ -26,7 +26,6 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
       default:
         child = buildDefaultSelection();
     }
-    Printt.white("${context.read<int>()} - ${item.operatorType} - ${item.value?.toJson()}");
     return child;
   }
 

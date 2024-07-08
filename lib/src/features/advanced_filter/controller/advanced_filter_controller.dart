@@ -9,6 +9,8 @@ class AdvancedFilterController {
   final ValueNotifier<List<FieldAdvancedFilter>> advancedFilter;
   final List<Field> fields;
 
+  late final ScrollController scrollController;
+
   AdvancedFilterController({
     required this.advancedFilter,
     required this.fields,
@@ -24,6 +26,16 @@ class AdvancedFilterController {
         field: fields.randomElement,
       ))
       ..notifyListeners();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      },
+    );
   }
 
   void onDeleteAllAdvancedFilter() {
