@@ -133,7 +133,6 @@ class FieldAdvancedFilter with ChangeNotifier implements BaseModel<FieldAdvanced
     DateTime? tryParseDateTime;
     try {
       tryParseDateTime = DateTime.tryParse(data.toString());
-      // ignore: empty_catches
     } catch (e) {}
     if (data is String && tryParseDateTime != null) return operatorType.applyFilters(tryParseDateTime, value);
     return operatorType.applyFilters(data, value);

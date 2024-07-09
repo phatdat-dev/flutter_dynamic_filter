@@ -189,23 +189,79 @@ void main() {
       );
     },
   );
-}
 
-// Printt.white(jsonEncode(_getResultTest(result, fieldName)));
-Map<String, dynamic> _getResultTest(List<Map<String, dynamic>> result, String key) {
-  return {
-    "0": result[0][key],
-    "1": result[1][key],
-    "210": result[210][key],
-    "211": result[211][key],
-    "300": result[300][key],
-    "305": result[305][key],
-    "350": result[350][key],
-    "459": result[459][key],
-    "460": result[460][key],
-    "498": result[498][key],
-    "499": result[499][key],
-  };
+  group(
+    "Sort by [Name]-[Age]-[Date]",
+    () {
+      final Set<Field> fields = {
+        Field(name: "Name", type: FieldType.Text),
+        Field(name: "Age", type: FieldType.Number),
+        Field(name: "Date", type: FieldType.Date),
+      };
+      test(
+        "Sort [Name]-[Age]-[Date] ${OrderByOperator.ascending.label}",
+        () {
+          final result = _filterEngineSortOrder(fields.map((e) => FieldSortOrder(e, OrderByOperator.ascending)).toSet());
+
+          final dataWantToTest = {
+            "0": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"},
+            "1": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
+            "210": {"Name": "Liam Sara", "Age": 24, "Date": null},
+            "211": {"Name": "Liam Uma", "Age": null, "Date": "2024-07-14T13:35:42.135"},
+            "300": {"Name": "Quinn Wendy", "Age": null, "Date": "2024-07-19T13:35:42.135"},
+            "305": {"Name": "Ryan Bob", "Age": 99, "Date": "2024-07-09T13:35:42.136"},
+            "350": {"Name": "Tom Yara", "Age": 20, "Date": "2024-06-30T13:35:42.135"},
+            "459": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
+            "460": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"},
+            "498": {"Name": null, "Age": 109, "Date": "2024-07-02T13:35:42.136"},
+            "499": {"Name": null, "Age": 116, "Date": "2024-07-17T13:35:42.135"}
+          };
+
+          dataWantToTest.forEach((key, value) {
+            fields.forEach((field) {
+              final originValue = result[int.parse(key)][field.name];
+              if (field.name == "Date") {
+                expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
+              } else {
+                expect(originValue, value[field.name]);
+              }
+            });
+          });
+        },
+      );
+      test(
+        "Sort [Name]-[Age]-[Date] ${OrderByOperator.descending.label}",
+        () {
+          final result = _filterEngineSortOrder(fields.map((e) => FieldSortOrder(e, OrderByOperator.descending)).toSet());
+
+          final dataWantToTest = {
+            "0": {"Name": null, "Age": 116, "Date": "2024-07-17T13:35:42.135"},
+            "1": {"Name": null, "Age": 109, "Date": "2024-07-02T13:35:42.136"},
+            "210": {"Name": "Quinn Hank", "Age": 79, "Date": "2024-06-30T13:35:42.135"},
+            "211": {"Name": "Quinn Grace", "Age": 81, "Date": "2024-07-06T13:35:42.135"},
+            "300": {"Name": "Liam Ivy", "Age": 117, "Date": "2024-07-16T13:35:42.137"},
+            "305": {"Name": "Liam Eva", "Age": 117, "Date": "2024-07-06T13:35:42.137"},
+            "350": {"Name": "Jane Bob", "Age": 58, "Date": "2024-07-16T13:35:42.136"},
+            "459": {"Name": "Dave Noah", "Age": 97, "Date": "2024-06-26T13:35:42.137"},
+            "460": {"Name": "Dave John", "Age": 81, "Date": "2024-07-02T13:35:42.136"},
+            "498": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
+            "499": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"}
+          };
+
+          dataWantToTest.forEach((key, value) {
+            fields.forEach((field) {
+              final originValue = result[int.parse(key)][field.name];
+              if (field.name == "Date") {
+                expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
+              } else {
+                expect(originValue, value[field.name]);
+              }
+            });
+          });
+        },
+      );
+    },
+  );
 }
 
 List<Map<String, dynamic>> _filterEngineSortOrder(Set<FieldSortOrder> sortOrders) {

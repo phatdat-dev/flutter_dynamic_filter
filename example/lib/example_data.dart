@@ -18,7 +18,6 @@ class ExampleData {
       try {
         final tryParseDateTime = DateTime.tryParse(e['Date']);
         if (tryParseDateTime != null) e['Date'] = tryParseDateTime;
-        // ignore: empty_catches
       } catch (e) {}
       return Map<String, dynamic>.from(e);
     }).toList();

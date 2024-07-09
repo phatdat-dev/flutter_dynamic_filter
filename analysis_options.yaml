@@ -14,6 +14,8 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
   errors:
+    avoid_function_literals_in_foreach_calls: ignore
+    empty_catches: ignore
     invalid_annotation_target: ignore
 
 linter:
