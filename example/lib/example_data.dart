@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
 
 class ExampleData {
@@ -11,6 +13,17 @@ class ExampleData {
     Field(name: 'Date', type: FieldType.Date),
     Field(name: 'Status', type: FieldType.SingleSelect),
   ];
+  static Future<List<Map<String, dynamic>>> loadExampleData() async {
+    return List.from(jsonDecode((await rootBundle.loadString('packages/flutter_dynamic_filter/assets/example_data/data.json')))).map((e) {
+      try {
+        final tryParseDateTime = DateTime.tryParse(e['Date']);
+        if (tryParseDateTime != null) e['Date'] = tryParseDateTime;
+        // ignore: empty_catches
+      } catch (e) {}
+      return Map<String, dynamic>.from(e);
+    }).toList();
+  }
+
   static List<Map<String, dynamic>> generateExampleData() {
     // Create a list of example data
     final List<Map<String, dynamic>> exampleDataList = [];

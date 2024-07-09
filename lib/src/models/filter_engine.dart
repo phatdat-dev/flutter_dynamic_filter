@@ -53,12 +53,12 @@ class FilterEngine {
   }
 
   List<Map<String, dynamic>> sortList([List<Map<String, dynamic>>? list]) {
-    list ??= data;
+    list = List.from(list ??= data);
     if (sortOrders == null) return list;
 
     list.sort((a, b) => _recursiveSort(a, b, sortOrders!, 0));
 
-    return List.from(list);
+    return list;
   }
 
   int _recursiveSort(Map<String, dynamic> a, Map<String, dynamic> b, Set<FieldSortOrder> sortOrders, int index) {
@@ -71,7 +71,7 @@ class FilterEngine {
     final valueB = b[sortOrder.field.name];
 
     int comparison;
-    if (valueA is Comparable && valueB is Comparable) {
+    if (valueA is Comparable? && valueB is Comparable?) {
       comparison = compareNatural(valueA.toString(), valueB.toString());
     } else {
       comparison = 0;
