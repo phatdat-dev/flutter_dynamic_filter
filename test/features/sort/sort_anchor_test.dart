@@ -1,7 +1,7 @@
 import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../flutter_dynamic_filter_test.dart';
+import '../../ultils.dart';
 
 late final List<Map<String, dynamic>> _data;
 void main() {
