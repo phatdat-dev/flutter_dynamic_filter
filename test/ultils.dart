@@ -35,11 +35,11 @@ Map<String, dynamic> getResultTest(List<Map<String, dynamic>> result, List<Strin
   return data;
 }
 
-String tryParseDateTimeString(dynamic value) {
+dynamic tryParseDateTimeString(dynamic value) {
   DateTime? tryParseDateTime;
   try {
     tryParseDateTime = DateTime.tryParse(value.toString());
   } catch (e) {}
 
-  return tryParseDateTime?.toIso8601String() ?? value.toString();
+  return tryParseDateTime?.toIso8601String() ?? value;
 }

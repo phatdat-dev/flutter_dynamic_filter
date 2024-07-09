@@ -198,6 +198,20 @@ void main() {
         Field(name: "Age", type: FieldType.Number),
         Field(name: "Date", type: FieldType.Date),
       };
+
+      void testt(Map<String, Map<String, dynamic>> dataWantToTest, List<Map<String, dynamic>> result) {
+        dataWantToTest.forEach((key, value) {
+          fields.forEach((field) {
+            final originValue = result[int.parse(key)][field.name];
+            if (field.name == "Date") {
+              expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
+            } else {
+              expect(originValue, value[field.name]);
+            }
+          });
+        });
+      }
+
       test(
         "Sort [Name]-[Age]-[Date] ${OrderByOperator.ascending.label}",
         () {
@@ -217,16 +231,7 @@ void main() {
             "499": {"Name": null, "Age": 116, "Date": "2024-07-17T13:35:42.135"}
           };
 
-          dataWantToTest.forEach((key, value) {
-            fields.forEach((field) {
-              final originValue = result[int.parse(key)][field.name];
-              if (field.name == "Date") {
-                expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
-              } else {
-                expect(originValue, value[field.name]);
-              }
-            });
-          });
+          testt(dataWantToTest, result);
         },
       );
       test(
@@ -248,16 +253,59 @@ void main() {
             "499": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"}
           };
 
-          dataWantToTest.forEach((key, value) {
-            fields.forEach((field) {
-              final originValue = result[int.parse(key)][field.name];
-              if (field.name == "Date") {
-                expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
-              } else {
-                expect(originValue, value[field.name]);
-              }
-            });
+          testt(dataWantToTest, result);
+        },
+      );
+      test(
+        "Sort [Name] Asc -[Age] Desc -[Date] Asc",
+        () {
+          final result = _filterEngineSortOrder({
+            FieldSortOrder(fields.elementAt(0), OrderByOperator.ascending),
+            FieldSortOrder(fields.elementAt(1), OrderByOperator.descending),
+            FieldSortOrder(fields.elementAt(2), OrderByOperator.ascending),
           });
+
+          final dataWantToTest = {
+            "0": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"},
+            "1": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
+            "210": {"Name": "Liam Sara", "Age": 24, "Date": null},
+            "211": {"Name": "Liam Uma", "Age": null, "Date": "2024-07-14T13:35:42.135"},
+            "300": {"Name": "Quinn Wendy", "Age": null, "Date": "2024-07-19T13:35:42.135"},
+            "305": {"Name": "Ryan Bob", "Age": 74, "Date": "2024-07-16T13:35:42.135"},
+            "350": {"Name": "Tom Yara", "Age": 20, "Date": "2024-06-30T13:35:42.135"},
+            "459": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
+            "460": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"},
+            "498": {"Name": null, "Age": 21, "Date": "2024-07-10T13:35:42.137"},
+            "499": {"Name": null, "Age": 21, "Date": "2024-07-19T13:35:42.136"}
+          };
+
+          testt(dataWantToTest, result);
+        },
+      );
+      test(
+        "Sort [Age] Asc -[Name] Desc -[Date] Desc",
+        () {
+          final result = _filterEngineSortOrder({
+            FieldSortOrder(fields.elementAt(1), OrderByOperator.ascending),
+            FieldSortOrder(fields.elementAt(0), OrderByOperator.descending),
+            FieldSortOrder(fields.elementAt(2), OrderByOperator.descending),
+          });
+
+          final dataWantToTest = {
+            "0": {"Name": "Zane Eva", "Age": 18, "Date": null},
+            "1": {"Name": "Ryan Dave", "Age": 18, "Date": "2024-07-18T13:35:42.137"},
+            "210": {"Name": "Olivia Charlie", "Age": 63, "Date": "2024-06-25T13:35:42.136"},
+            "211": {"Name": "Liam Ryan", "Age": 63, "Date": "2024-07-02T13:35:42.136"},
+            "300": {"Name": "Xander Quinn", "Age": 83, "Date": null},
+            "305": {"Name": "Hank Liam", "Age": 84, "Date": null},
+            "350": {"Name": "Xander Eva", "Age": 93, "Date": "2024-06-24T13:35:42.136"},
+            "459": {"Name": "Liam Hank", "Age": 116, "Date": "2024-07-09T13:35:42.136"},
+            "460": {"Name": "Jane Peter", "Age": 116, "Date": "2024-06-25T13:35:42.135"},
+            "498": {"Name": "Bob Xander", "Age": null, "Date": "2024-07-16T13:35:42.136"},
+            "499": {"Name": "Bob Ryan", "Age": null, "Date": "2024-06-27T13:35:42.136"}
+          };
+
+          testt(dataWantToTest, result);
         },
       );
     },
