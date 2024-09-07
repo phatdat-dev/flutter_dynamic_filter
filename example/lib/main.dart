@@ -49,17 +49,30 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with _MyHomePageDataTableStateMixin, _MyHomePageButtonStateMixin {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: AppBar(),
-      body: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: _buildDataTable(),
-          ),
-          Expanded(child: _buildButton())
-        ],
-      ),
+      body: width > 1000
+          ? Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: _buildDataTable(),
+                ),
+                Expanded(child: _buildButton())
+              ],
+            )
+          : ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _buildButton(),
+                SizedBox(
+                  width: width,
+                  height: double.infinity,
+                  child: _buildDataTable(),
+                ),
+              ],
+            ),
     );
   }
 }

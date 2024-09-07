@@ -43,7 +43,7 @@ class _AdvancedFilterEditorState extends State<AdvancedFilterEditor> with Advanc
         footer: _buildFooter(),
         children: value.mapIndexed((index, item) {
           return MultiProvider(
-            key: UniqueKey(),
+            key: ValueKey(item),
             providers: [
               ChangeNotifierProvider.value(value: item),
               Provider.value(value: index),

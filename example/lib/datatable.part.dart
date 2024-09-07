@@ -2,7 +2,7 @@ part of 'main.dart';
 
 mixin _MyHomePageDataTableStateMixin on State<MyHomePage> {
   late List<Map<String, dynamic>> originExampleData;
-  late final ValueNotifier<List<Map<String, dynamic>>> exampleDataSearch;
+  late ValueNotifier<List<Map<String, dynamic>>> exampleDataSearch;
 
   void onLoadComplete(List<Map<String, dynamic>> data) {
     originExampleData = data;

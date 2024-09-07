@@ -234,23 +234,26 @@ final class HelperWidget {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true, //
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.4,
-        minChildSize: 0.4,
-        maxChildSize: 0.9,
-        expand: false,
-        snap: true,
-        builder: (context, scrollController) {
-          return ListView(
-            controller: scrollController,
-            // primary: false,
-            shrinkWrap: true,
-            children: [
-              headerWidget,
-              builder(context, scrollController),
-            ],
-          );
-        },
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: DraggableScrollableSheet(
+          initialChildSize: 0.4,
+          minChildSize: 0.4,
+          maxChildSize: 0.9,
+          expand: false,
+          snap: true,
+          builder: (context, scrollController) {
+            return ListView(
+              controller: scrollController,
+              // primary: false,
+              shrinkWrap: true,
+              children: [
+                headerWidget,
+                builder(context, scrollController),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
