@@ -1,8 +1,8 @@
 name: flutter_dynamic_filter
-description: "A new Flutter package project."
+description: "A package to create dynamic filter for list of data"
 version: 0.0.4
 homepage: https://github.com/phatdat-dev/flutter_dynamic_filter
-publish_to: none
+# publish_to:
 
 environment:
   sdk: ">=3.4.4 <4.0.0"
