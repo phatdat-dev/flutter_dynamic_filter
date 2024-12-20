@@ -5,7 +5,7 @@ on:
     # branches:
     #   - main
     tags:
-      - "*"
+      - "*" # bất kì tag nào đc push lên đều sẽ build web
 
 # permissions:
 # contents: write
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./example
+        working-directory: ./example  # do đang viết là package nên trỏ tới mục example, nếu là project thì xóa dòng này
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          flutter-version-file: pubspec.yaml # lấy version của flutter từ file pubspec.yaml
 
       - name: Install dependencies
         run: flutter pub get
@@ -39,7 +39,7 @@ jobs:
           flutter build web --release
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4.0.0
+        uses: peaceiris/actions-gh-pages@v4.0.0 # dùng cái này để deploy lên github pages
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./example/build/web
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # token sẽ tự generate ra
+          publish_dir: ./example/build/web # thư mục chứa file build web

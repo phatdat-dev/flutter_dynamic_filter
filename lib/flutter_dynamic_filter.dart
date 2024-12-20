@@ -1,4 +1,4 @@
-library flutter_dynamic_filter;
+library;
 
 export 'src/features/advanced_filter/advanced_filter_anchor.dart';
 export 'src/features/sort/sort_anchor.dart';

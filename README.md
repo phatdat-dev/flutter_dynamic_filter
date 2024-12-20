@@ -3,8 +3,8 @@
 # [Preview Link](https://phatdat-dev.github.io/flutter_dynamic_filter/) 🔗
 
 <div align="center">
-  <img src="assets/readme/advanced_filter_1.png" alt="AdvancedFilter" style="display: inline-block;"/>
-  <img src="assets/readme/sort_1.gif" alt="SortMenu" style="display: inline-block;"/>
+  <img src="https://raw.githubusercontent.com/phatdat-dev/flutter_dynamic_filter/refs/heads/main/assets/readme/advanced_filter_1.png" alt="AdvancedFilter" style="display: inline-block;"/>
+  <img src="https://github.com/phatdat-dev/flutter_dynamic_filter/blob/main/assets/readme/sort_1.gif?raw=true" alt="SortMenu" style="display: inline-block;"/>
 </div>
 
 ### Setup for filter
