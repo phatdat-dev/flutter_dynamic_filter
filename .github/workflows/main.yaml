@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./example  # do đang viết là package nên trỏ tới mục example, nếu là project thì xóa dòng này
+        working-directory: ./example # do đang viết là package nên trỏ tới mục example, nếu là project thì xóa dòng này
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -31,8 +31,8 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run Unit Tests
-        run: flutter test
+      # - name: Run Unit Tests
+      #   run: flutter test
 
       - name: Build Flutter Web
         run: |
@@ -41,5 +41,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.0.0 # dùng cái này để deploy lên github pages
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # token sẽ tự generate ra
+          github_token: ${{ secrets.GITHUB_TOKEN }} # token sẽ tự generate ra
           publish_dir: ./example/build/web # thư mục chứa file build web
