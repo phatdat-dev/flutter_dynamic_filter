@@ -67,11 +67,11 @@ class FilterEngine {
     }
 
     final sortOrder = sortOrders.elementAt(index);
-    final valueA = a[sortOrder.field.name];
-    final valueB = b[sortOrder.field.name];
+    final valueA = a[sortOrder.field.name] ?? '';
+    final valueB = b[sortOrder.field.name] ?? '';
 
     int comparison;
-    if (valueA is Comparable? && valueB is Comparable?) {
+    if (valueA is Comparable && valueB is Comparable) {
       comparison = compareNatural(valueA.toString(), valueB.toString());
     } else {
       comparison = 0;

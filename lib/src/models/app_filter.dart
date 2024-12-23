@@ -1,4 +1,4 @@
-library app_filter;
+library;
 
 export 'enum/field_type.dart';
 export 'enum/operator_type/operator_type.dart';

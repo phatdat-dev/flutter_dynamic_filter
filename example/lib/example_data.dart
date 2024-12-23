@@ -18,6 +18,7 @@ class ExampleData {
       try {
         final tryParseDateTime = DateTime.tryParse(e['Date']);
         if (tryParseDateTime != null) e['Date'] = tryParseDateTime;
+        // ignore: empty_catches
       } catch (e) {}
       return Map<String, dynamic>.from(e);
     }).toList();
@@ -67,7 +68,7 @@ class ExampleData {
     for (int i = 1; i <= 500; i++) {
       final data = <String, dynamic>{
         "Name": "${names[random.nextInt(names.length)]} ${names[random.nextInt(names.length)]}",
-        "Age": random.nextInt(100) + 18, // Tuổi từ 18 đến 117
+        "Age": random.nextInt(100) + 18, // Age from 18 to 117
         "Phone": "${random.nextInt(1000).toString().padLeft(3, '0')}-${random.nextInt(10000).toString().padLeft(4, '0')}",
         "Address":
             "${random.nextInt(1000) + 1} ${street[random.nextInt(street.length)]} ${streetType[random.nextInt(streetType.length)]}, ${city[random.nextInt(city.length)]}",

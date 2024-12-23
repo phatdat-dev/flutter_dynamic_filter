@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
+import 'package:flutter_dynamic_filter/src/shared/utils/print.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../ultils.dart';
@@ -16,57 +19,53 @@ void main() {
   group(
     "Sort by [Name]",
     () {
-      const String fieldName = 'Name';
+      final field = Field(name: 'Name', type: FieldType.Text);
       test(
-        "Sort [$fieldName] ${OrderByOperator.ascending.label}",
+        "Sort [${field.name}] ${OrderByOperator.ascending.label}",
         () {
           final result = _filterEngineSortOrder({
-            FieldSortOrder(Field(name: fieldName, type: FieldType.Text), OrderByOperator.ascending),
-          });
-
-          final dataWantToTest = {
-            "0": "Alice Bob",
-            "1": "Alice Charlie",
-            "210": "Liam Sara",
-            "211": "Liam Uma",
-            "300": "Quinn Wendy",
-            "305": "Ryan Bob",
-            "350": "Tom Yara",
-            "459": "Zane Xander",
-            "460": "Zane Yara",
-            "498": null,
-            "499": null
-          };
-
-          dataWantToTest.forEach((key, value) {
-            expect(result[int.parse(key)][fieldName], value);
-          });
-        },
-      );
-      test(
-        "Sort [$fieldName] ${OrderByOperator.descending.label}",
-        () {
-          final result = _filterEngineSortOrder({
-            FieldSortOrder(Field(name: fieldName, type: FieldType.Text), OrderByOperator.descending),
+            FieldSortOrder(field, OrderByOperator.ascending),
           });
 
           final dataWantToTest = {
             "0": null,
             "1": null,
-            "210": "Quinn Hank",
-            "211": "Quinn Grace",
-            "300": "Liam Ivy",
-            "305": "Liam Eva",
-            "350": "Jane Bob",
-            "459": "Dave Noah",
-            "460": "Dave John",
-            "498": "Alice Charlie",
-            "499": "Alice Bob"
+            "210": "John Mia",
+            "211": "John Mia",
+            "300": "Olivia Yara",
+            "305": "Peter Charlie",
+            "350": "Ryan Quinn",
+            "459": "Xander Sara",
+            "460": "Xander Vince",
+            "498": "Zane Xander",
+            "499": "Zane Yara"
           };
 
-          dataWantToTest.forEach((key, value) {
-            expect(result[int.parse(key)][fieldName], value);
+          testCase(fields: {field}, dataWantToTest: dataWantToTest, result: result);
+        },
+      );
+      test(
+        "Sort [${field.name}] ${OrderByOperator.descending.label}",
+        () {
+          final result = _filterEngineSortOrder({
+            FieldSortOrder(field, OrderByOperator.descending),
           });
+
+          final dataWantToTest = {
+            "0": "Zane Yara",
+            "1": "Zane Xander",
+            "210": "Olivia Noah",
+            "211": "Olivia Kate",
+            "300": "Jane Wendy",
+            "305": "Jane Kate",
+            "350": "Hank Zane",
+            "459": "Alice Charlie",
+            "460": "Alice Bob",
+            "498": null,
+            "499": null
+          };
+
+          testCase(fields: {field}, dataWantToTest: dataWantToTest, result: result);
         },
       );
     },
@@ -75,57 +74,53 @@ void main() {
   group(
     "Sort by [Age]",
     () {
-      const String fieldName = 'Age';
+      final field = Field(name: 'Age', type: FieldType.Number);
       test(
-        "Sort [$fieldName] ${OrderByOperator.ascending.label}",
+        "Sort [${field.name}] ${OrderByOperator.ascending.label}",
         () {
           final result = _filterEngineSortOrder({
-            FieldSortOrder(Field(name: fieldName, type: FieldType.Number), OrderByOperator.ascending),
-          });
-
-          final dataWantToTest = {
-            "0": 18,
-            "1": 18,
-            "210": 63,
-            "211": 63,
-            "300": 83,
-            "305": 84,
-            "350": 93,
-            "459": 116,
-            "460": 116,
-            "498": null,
-            "499": null
-          };
-
-          dataWantToTest.forEach((key, value) {
-            expect(result[int.parse(key)][fieldName], value);
-          });
-        },
-      );
-      test(
-        "Sort [$fieldName] ${OrderByOperator.descending.label}",
-        () {
-          final result = _filterEngineSortOrder({
-            FieldSortOrder(Field(name: fieldName, type: FieldType.Number), OrderByOperator.descending),
+            FieldSortOrder(field, OrderByOperator.ascending),
           });
 
           final dataWantToTest = {
             "0": null,
             "1": null,
-            "210": 81,
-            "211": 80,
-            "300": 59,
-            "305": 58,
-            "350": 48,
-            "459": 25,
-            "460": 25,
-            "498": 18,
-            "499": 18
+            "210": 53,
+            "211": 53,
+            "300": 74,
+            "305": 76,
+            "350": 87,
+            "459": 105,
+            "460": 106,
+            "498": 117,
+            "499": 117
           };
 
-          dataWantToTest.forEach((key, value) {
-            expect(result[int.parse(key)][fieldName], value);
+          testCase(fields: {field}, dataWantToTest: dataWantToTest, result: result);
+        },
+      );
+      test(
+        "Sort [${field.name}] ${OrderByOperator.descending.label}",
+        () {
+          final result = _filterEngineSortOrder({
+            FieldSortOrder(field, OrderByOperator.descending),
           });
+
+          final dataWantToTest = {
+            "0": 117,
+            "1": 117,
+            "210": 72,
+            "211": 71,
+            "300": 50,
+            "305": 49,
+            "350": 40,
+            "459": 19,
+            "460": 18,
+            "498": null,
+            "499": null
+          };
+
+          testCase(fields: {field}, dataWantToTest: dataWantToTest, result: result);
         },
       );
     },
@@ -134,57 +129,53 @@ void main() {
   group(
     "Sort by [Date]",
     () {
-      const String fieldName = 'Date';
+      final field = Field(name: 'Date', type: FieldType.Date);
       test(
-        "Sort [$fieldName] ${OrderByOperator.ascending.label}",
+        "Sort [${field.name}] ${OrderByOperator.ascending.label}",
         () {
           final result = _filterEngineSortOrder({
-            FieldSortOrder(Field(name: fieldName, type: FieldType.Date), OrderByOperator.ascending),
+            FieldSortOrder(field, OrderByOperator.ascending),
           });
 
           final dataWantToTest = {
-            "0": "2024-06-24T13:35:42.135",
-            "1": "2024-06-24T13:35:42.136",
-            "210": "2024-07-07T13:35:42.136",
-            "211": "2024-07-07T13:35:42.137",
-            "300": "2024-07-13T13:35:42.136",
-            "305": "2024-07-14T13:35:42.135",
-            "350": "2024-07-17T13:35:42.135",
+            "0": null,
+            "1": null,
+            "210": "2024-07-04T13:35:42.137",
+            "211": "2024-07-04T13:35:42.137",
+            "300": "2024-07-10T13:35:42.135",
+            "305": "2024-07-10T13:35:42.136",
+            "350": "2024-07-13T13:35:42.136",
+            "459": "2024-07-20T13:35:42.137",
+            "460": "2024-07-20T13:35:42.137",
+            "498": "2024-07-23T13:35:42.137",
+            "499": "2024-07-23T13:35:42.137"
+          };
+
+          testCase(fields: {field}, dataWantToTest: dataWantToTest, result: result);
+        },
+      );
+      test(
+        "Sort [${field.name}] ${OrderByOperator.descending.label}",
+        () {
+          final result = _filterEngineSortOrder({
+            FieldSortOrder(field, OrderByOperator.descending),
+          });
+
+          final dataWantToTest = {
+            "0": "2024-07-23T13:35:42.137",
+            "1": "2024-07-23T13:35:42.137",
+            "210": "2024-07-09T13:35:42.136",
+            "211": "2024-07-09T13:35:42.136",
+            "300": "2024-07-04T13:35:42.136",
+            "305": "2024-07-04T13:35:42.135",
+            "350": "2024-07-01T13:35:42.136",
             "459": null,
             "460": null,
             "498": null,
             "499": null
           };
 
-          dataWantToTest.forEach((key, value) {
-            expect(result[int.parse(key)][fieldName], DateTime.tryParse(value ?? ""));
-          });
-        },
-      );
-      test(
-        "Sort [$fieldName] ${OrderByOperator.descending.label}",
-        () {
-          final result = _filterEngineSortOrder({
-            FieldSortOrder(Field(name: fieldName, type: FieldType.Date), OrderByOperator.descending),
-          });
-
-          final dataWantToTest = {
-            "0": null,
-            "1": null,
-            "210": "2024-07-12T13:35:42.137",
-            "211": "2024-07-12T13:35:42.137",
-            "300": "2024-07-07T13:35:42.135",
-            "305": "2024-07-07T13:35:42.135",
-            "350": "2024-07-04T13:35:42.136",
-            "459": "2024-06-27T13:35:42.135",
-            "460": "2024-06-26T13:35:42.137",
-            "498": "2024-06-24T13:35:42.136",
-            "499": "2024-06-24T13:35:42.135",
-          };
-
-          dataWantToTest.forEach((key, value) {
-            expect(result[int.parse(key)][fieldName], DateTime.tryParse(value ?? ""));
-          });
+          testCase(fields: {field}, dataWantToTest: dataWantToTest, result: result);
         },
       );
     },
@@ -199,39 +190,26 @@ void main() {
         Field(name: "Date", type: FieldType.Date),
       };
 
-      void testt(Map<String, Map<String, dynamic>> dataWantToTest, List<Map<String, dynamic>> result) {
-        dataWantToTest.forEach((key, value) {
-          fields.forEach((field) {
-            final originValue = result[int.parse(key)][field.name];
-            if (field.name == "Date") {
-              expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
-            } else {
-              expect(originValue, value[field.name]);
-            }
-          });
-        });
-      }
-
       test(
         "Sort [Name]-[Age]-[Date] ${OrderByOperator.ascending.label}",
         () {
           final result = _filterEngineSortOrder(fields.map((e) => FieldSortOrder(e, OrderByOperator.ascending)).toSet());
 
-          final dataWantToTest = {
-            "0": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"},
-            "1": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
-            "210": {"Name": "Liam Sara", "Age": 24, "Date": null},
-            "211": {"Name": "Liam Uma", "Age": null, "Date": "2024-07-14T13:35:42.135"},
-            "300": {"Name": "Quinn Wendy", "Age": null, "Date": "2024-07-19T13:35:42.135"},
-            "305": {"Name": "Ryan Bob", "Age": 99, "Date": "2024-07-09T13:35:42.136"},
-            "350": {"Name": "Tom Yara", "Age": 20, "Date": "2024-06-30T13:35:42.135"},
-            "459": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
-            "460": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"},
-            "498": {"Name": null, "Age": 109, "Date": "2024-07-02T13:35:42.136"},
-            "499": {"Name": null, "Age": 116, "Date": "2024-07-17T13:35:42.135"}
+          final dataWantToTest = <String, Map<String, dynamic>>{
+            "0": {"Name": null, "Age": 21, "Date": "2024-07-10T13:35:42.137"},
+            "1": {"Name": null, "Age": 21, "Date": "2024-07-19T13:35:42.136"},
+            "210": {"Name": "John Mia", "Age": 52, "Date": "2024-06-28T13:35:42.135"},
+            "211": {"Name": "John Mia", "Age": 72, "Date": "2024-07-22T13:35:42.137"},
+            "300": {"Name": "Olivia Yara", "Age": 43, "Date": "2024-06-29T13:35:42.137"},
+            "305": {"Name": "Peter Charlie", "Age": 63, "Date": null},
+            "350": {"Name": "Ryan Quinn", "Age": 86, "Date": "2024-07-07T13:35:42.136"},
+            "459": {"Name": "Xander Sara", "Age": 31, "Date": "2024-06-25T13:35:42.135"},
+            "460": {"Name": "Xander Vince", "Age": 81, "Date": "2024-06-25T13:35:42.136"},
+            "498": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
+            "499": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"}
           };
 
-          testt(dataWantToTest, result);
+          testCase(fields: fields, dataWantToTest: dataWantToTest, result: result);
         },
       );
       test(
@@ -239,21 +217,21 @@ void main() {
         () {
           final result = _filterEngineSortOrder(fields.map((e) => FieldSortOrder(e, OrderByOperator.descending)).toSet());
 
-          final dataWantToTest = {
-            "0": {"Name": null, "Age": 116, "Date": "2024-07-17T13:35:42.135"},
-            "1": {"Name": null, "Age": 109, "Date": "2024-07-02T13:35:42.136"},
-            "210": {"Name": "Quinn Hank", "Age": 79, "Date": "2024-06-30T13:35:42.135"},
-            "211": {"Name": "Quinn Grace", "Age": 81, "Date": "2024-07-06T13:35:42.135"},
-            "300": {"Name": "Liam Ivy", "Age": 117, "Date": "2024-07-16T13:35:42.137"},
-            "305": {"Name": "Liam Eva", "Age": 117, "Date": "2024-07-06T13:35:42.137"},
-            "350": {"Name": "Jane Bob", "Age": 58, "Date": "2024-07-16T13:35:42.136"},
-            "459": {"Name": "Dave Noah", "Age": 97, "Date": "2024-06-26T13:35:42.137"},
-            "460": {"Name": "Dave John", "Age": 81, "Date": "2024-07-02T13:35:42.136"},
-            "498": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
-            "499": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"}
+          final dataWantToTest = <String, Map<String, dynamic>>{
+            "0": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"},
+            "1": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
+            "210": {"Name": "Olivia Noah", "Age": 37, "Date": "2024-06-27T13:35:42.137"},
+            "211": {"Name": "Olivia Kate", "Age": 103, "Date": "2024-07-09T13:35:42.137"},
+            "300": {"Name": "Jane Wendy", "Age": 45, "Date": "2024-07-02T13:35:42.136"},
+            "305": {"Name": "Jane Kate", "Age": 51, "Date": "2024-07-12T13:35:42.135"},
+            "350": {"Name": "Hank Zane", "Age": 45, "Date": "2024-06-25T13:35:42.135"},
+            "459": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
+            "460": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"},
+            "498": {"Name": null, "Age": 21, "Date": "2024-07-19T13:35:42.136"},
+            "499": {"Name": null, "Age": 21, "Date": "2024-07-10T13:35:42.137"}
           };
 
-          testt(dataWantToTest, result);
+          testCase(fields: fields, dataWantToTest: dataWantToTest, result: result);
         },
       );
       test(
@@ -265,21 +243,21 @@ void main() {
             FieldSortOrder(fields.elementAt(2), OrderByOperator.ascending),
           });
 
-          final dataWantToTest = {
-            "0": {"Name": "Alice Bob", "Age": 100, "Date": "2024-07-14T13:35:42.137"},
-            "1": {"Name": "Alice Charlie", "Age": 97, "Date": "2024-07-07T13:35:42.137"},
-            "210": {"Name": "Liam Sara", "Age": 24, "Date": null},
-            "211": {"Name": "Liam Uma", "Age": null, "Date": "2024-07-14T13:35:42.135"},
-            "300": {"Name": "Quinn Wendy", "Age": null, "Date": "2024-07-19T13:35:42.135"},
-            "305": {"Name": "Ryan Bob", "Age": 74, "Date": "2024-07-16T13:35:42.135"},
-            "350": {"Name": "Tom Yara", "Age": 20, "Date": "2024-06-30T13:35:42.135"},
-            "459": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
-            "460": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"},
-            "498": {"Name": null, "Age": 21, "Date": "2024-07-10T13:35:42.137"},
-            "499": {"Name": null, "Age": 21, "Date": "2024-07-19T13:35:42.136"}
+          final dataWantToTest = <String, Map<String, dynamic>>{
+            "0": {"Name": null, "Age": 116, "Date": "2024-07-17T13:35:42.135"},
+            "1": {"Name": null, "Age": 109, "Date": "2024-07-02T13:35:42.136"},
+            "210": {"Name": "John Mia", "Age": 72, "Date": "2024-07-22T13:35:42.137"},
+            "211": {"Name": "John Mia", "Age": 52, "Date": "2024-06-28T13:35:42.135"},
+            "300": {"Name": "Olivia Yara", "Age": 43, "Date": "2024-06-29T13:35:42.137"},
+            "305": {"Name": "Peter Charlie", "Age": 63, "Date": null},
+            "350": {"Name": "Ryan Quinn", "Age": 86, "Date": "2024-07-07T13:35:42.136"},
+            "459": {"Name": "Xander Sara", "Age": 31, "Date": "2024-06-25T13:35:42.135"},
+            "460": {"Name": "Xander Vince", "Age": 104, "Date": "2024-07-04T13:35:42.135"},
+            "498": {"Name": "Zane Xander", "Age": 58, "Date": "2024-06-24T13:35:42.137"},
+            "499": {"Name": "Zane Yara", "Age": 107, "Date": "2024-07-21T13:35:42.136"}
           };
 
-          testt(dataWantToTest, result);
+          testCase(fields: fields, dataWantToTest: dataWantToTest, result: result);
         },
       );
       test(
@@ -291,21 +269,21 @@ void main() {
             FieldSortOrder(fields.elementAt(2), OrderByOperator.descending),
           });
 
-          final dataWantToTest = {
-            "0": {"Name": "Zane Eva", "Age": 18, "Date": null},
-            "1": {"Name": "Ryan Dave", "Age": 18, "Date": "2024-07-18T13:35:42.137"},
-            "210": {"Name": "Olivia Charlie", "Age": 63, "Date": "2024-06-25T13:35:42.136"},
-            "211": {"Name": "Liam Ryan", "Age": 63, "Date": "2024-07-02T13:35:42.136"},
-            "300": {"Name": "Xander Quinn", "Age": 83, "Date": null},
-            "305": {"Name": "Hank Liam", "Age": 84, "Date": null},
-            "350": {"Name": "Xander Eva", "Age": 93, "Date": "2024-06-24T13:35:42.136"},
-            "459": {"Name": "Liam Hank", "Age": 116, "Date": "2024-07-09T13:35:42.136"},
-            "460": {"Name": "Jane Peter", "Age": 116, "Date": "2024-06-25T13:35:42.135"},
-            "498": {"Name": "Bob Xander", "Age": null, "Date": "2024-07-16T13:35:42.136"},
-            "499": {"Name": "Bob Ryan", "Age": null, "Date": "2024-06-27T13:35:42.136"}
+          final dataWantToTest = <String, Map<String, dynamic>>{
+            "0": {"Name": "Yara Tom", "Age": null, "Date": "2024-06-30T13:35:42.137"},
+            "1": {"Name": "Yara Peter", "Age": null, "Date": "2024-07-17T13:35:42.137"},
+            "210": {"Name": "Eva Xander", "Age": 53, "Date": "2024-07-10T13:35:42.135"},
+            "211": {"Name": null, "Age": 53, "Date": "2024-07-13T13:35:42.135"},
+            "300": {"Name": "John Frank", "Age": 74, "Date": "2024-07-04T13:35:42.136"},
+            "305": {"Name": "Wendy Eva", "Age": 76, "Date": "2024-06-26T13:35:42.136"},
+            "350": {"Name": "Zane Charlie", "Age": 87, "Date": "2024-07-15T13:35:42.135"},
+            "459": {"Name": "Alice Grace", "Age": 105, "Date": "2024-07-09T13:35:42.135"},
+            "460": {"Name": "Peter Charlie", "Age": 106, "Date": "2024-07-02T13:35:42.136"},
+            "498": {"Name": "Liam Ivy", "Age": 117, "Date": "2024-07-16T13:35:42.137"},
+            "499": {"Name": "Liam Eva", "Age": 117, "Date": "2024-07-06T13:35:42.137"}
           };
 
-          testt(dataWantToTest, result);
+          testCase(fields: fields, dataWantToTest: dataWantToTest, result: result);
         },
       );
     },
@@ -319,4 +297,44 @@ List<Map<String, dynamic>> _filterEngineSortOrder(Set<FieldSortOrder> sortOrders
   );
   final result = filterEngine.sortList();
   return result;
+}
+
+void testCase({
+  required Set<Field> fields,
+  required Map<String, dynamic> dataWantToTest,
+  required List<Map<String, dynamic>> result,
+}) {
+  const bool getLogDataTest = false;
+  final runtimeData = Map.from(dataWantToTest);
+
+  dataWantToTest.forEach((key, value) {
+    fields.forEach((field) {
+      final originValue = result[int.parse(key)][field.name];
+
+      if (getLogDataTest) {
+        if (value is Map) {
+          value.forEach((key2, value2) {
+            if (field.name == key2) runtimeData[key]?[key2] = (originValue is DateTime ? originValue.toIso8601String() : originValue) as Object?;
+          });
+        } else {
+          runtimeData[key] = originValue is DateTime ? originValue.toIso8601String() : originValue;
+        }
+      }
+
+      if (field.type == FieldType.Date) {
+        if (value is Map) {
+          expect(originValue, DateTime.tryParse(value[field.name]?.toString() ?? ""));
+        } else {
+          expect(originValue, DateTime.tryParse(value ?? ""));
+        }
+      } else {
+        if (value is Map) {
+          expect(originValue, value[field.name]);
+        } else {
+          expect(originValue, value);
+        }
+      }
+    });
+  });
+  Printt.white(jsonEncode(runtimeData));
 }
