@@ -7,7 +7,10 @@ import 'field_advanced_filter.dart';
 import 'field_sort_order.dart';
 
 class FilterGroup {
+  /// Name of the group
   final String name;
+
+  /// List of rules to apply
   final Iterable<FieldAdvancedFilter> rules;
 
   FilterGroup({
@@ -17,8 +20,13 @@ class FilterGroup {
 }
 
 class FilterEngine {
+  /// Your data Json
   final List<Map<String, dynamic>> data;
+
+  /// FilterGroup to apply to the data
   final FilterGroup? filterGroup;
+
+  /// SortOrders to apply to the data
   final Set<FieldSortOrder>? sortOrders;
 
   FilterEngine({
@@ -27,12 +35,14 @@ class FilterEngine {
     this.sortOrders,
   });
 
+  /// Apply the filter and sort to the data
   List<Map<String, dynamic>> applyFilterAndSort() {
     var result = filterList(data);
     result = sortList(result);
     return result;
   }
 
+  /// Only apply the filter to the data
   List<Map<String, dynamic>> filterList([Iterable<Map<String, dynamic>>? list]) {
     return (list ?? data).where((item) {
       final List<bool> conditions = [];
@@ -52,6 +62,7 @@ class FilterEngine {
     }).toList();
   }
 
+  /// Only apply the sort to the data
   List<Map<String, dynamic>> sortList([List<Map<String, dynamic>>? list]) {
     list = List.from(list ??= data);
     if (sortOrders == null) return list;

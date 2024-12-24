@@ -82,3 +82,94 @@ SizedBox(
   ),
 )
 ```
+
+# FilterEngine
+
+## Overview
+
+The `FilterEngine` allows you to filter and sort a collection of data based on customizable rules and sort orders. It is designed to handle complex filtering scenarios using logical operators like AND and OR.
+
+## Features
+
+- Flexible filtering of data using multiple rules.
+- Logical operators (AND/OR) for combining rules.
+- Natural sorting with support for multiple fields and order directions.
+- Easy integration with Dart and Flutter projects.
+
+### Data Structure
+
+The data to be filtered and sorted should be a list of maps with keys corresponding to field names. For example:
+
+```dart
+final data = [
+  {'name': 'Alice', 'age': 25, 'city': 'New York'},
+  {'name': 'Bob', 'age': 30, 'city': 'Los Angeles'},
+  {'name': 'Charlie', 'age': 22, 'city': 'Chicago'},
+];
+```
+
+### Define Fields and Filters
+
+#### Define Fields
+
+Fields represent the columns or attributes of your data:
+
+```dart
+final nameField = Field(name: 'name');
+final ageField = Field(name: 'age', type: FieldType.Number);
+```
+
+#### Define Filters
+
+Filters specify conditions for filtering data:
+
+```dart
+final ageFilter = FieldAdvancedFilter(
+  field: ageField,
+  value: 25,
+  mustMatch: FilterMustMatch.and,
+);
+
+final nameFilter = FieldAdvancedFilter(
+  field: nameField,
+  value: 'Alice',
+  mustMatch: FilterMustMatch.or,
+);
+```
+
+### Create a Filter Group
+
+Combine multiple filters into a group:
+
+```dart
+final filterGroup = FilterGroup(
+  name: 'Sample Filter Group',
+  rules: [ageFilter, nameFilter],
+);
+```
+
+### Define Sort Orders
+
+Specify the sorting order for fields:
+
+```dart
+final sortOrder = FieldSortOrder(
+  field: ageField,
+  orderBy: OrderByOperator.ascending,
+);
+```
+
+### Apply Filters and Sorting
+
+Use the `FilterEngine` to filter and sort your data:
+
+```dart
+final engine = FilterEngine(
+  data: data,
+  filterGroup: filterGroup,
+  sortOrders: {sortOrder},
+);
+
+final result = engine.applyFilterAndSort();
+print(result);
+```
