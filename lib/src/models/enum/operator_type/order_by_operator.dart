@@ -6,9 +6,9 @@ enum OrderByOperator implements OperatorType<Object> {
 
   @override
   String get label => switch (this) {
-        ascending => "Ascending",
-        descending => "Descending",
-      };
+    ascending => "Ascending",
+    descending => "Descending",
+  };
 
   @override
   bool applyFilters(Object? originValue, dynamic filterValue) {

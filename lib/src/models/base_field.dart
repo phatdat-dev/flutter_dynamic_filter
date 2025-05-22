@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:equatable/equatable.dart';
-import 'package:flutter_dynamic_filter/src/models/base_model.dart';
+
+import 'base_model.dart';
 
 class BaseField extends Equatable {
   final String name;

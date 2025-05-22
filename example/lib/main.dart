@@ -46,7 +46,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with _MyHomePageDataTableStateMixin, _MyHomePageButtonStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with _MyHomePageDataTableStateMixin, _MyHomePageButtonStateMixin {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -55,11 +56,8 @@ class _MyHomePageState extends State<MyHomePage> with _MyHomePageDataTableStateM
       body: width > 1000
           ? Row(
               children: [
-                Expanded(
-                  flex: 3,
-                  child: _buildDataTable(),
-                ),
-                Expanded(child: _buildButton())
+                Expanded(flex: 3, child: _buildDataTable()),
+                Expanded(child: _buildButton()),
               ],
             )
           : ListView(

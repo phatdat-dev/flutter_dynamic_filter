@@ -22,7 +22,8 @@ class _SortEditorState extends State<SortEditor> with SortControllerStateMixin {
       child: ValueListenableBuilder(
         valueListenable: controller.sortOrders,
         builder: (context, value, child) => ReorderableListView(
-          onReorder: (oldIndex, newIndex) => controller.sortOrders.value = value.onReorder(oldIndex, newIndex),
+          onReorder: (oldIndex, newIndex) =>
+              controller.sortOrders.value = value.onReorder(oldIndex, newIndex),
           shrinkWrap: true,
           buildDefaultDragHandles: false,
           footer: const IconTheme(

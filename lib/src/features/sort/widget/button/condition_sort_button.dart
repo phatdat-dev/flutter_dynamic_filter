@@ -11,7 +11,8 @@ class ConditionSortButton extends StatefulWidget {
   State<ConditionSortButton> createState() => _ConditionSortButtonState();
 }
 
-class _ConditionSortButtonState extends State<ConditionSortButton> with SortControllerStateMixin {
+class _ConditionSortButtonState extends State<ConditionSortButton>
+    with SortControllerStateMixin {
   void _showConditionPopupMenu(BuildContext context) {
     HelperWidget.showPopupMenu(
       context: context,

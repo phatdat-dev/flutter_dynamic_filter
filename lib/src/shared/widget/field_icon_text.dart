@@ -29,8 +29,13 @@ class FieldIconText extends StatelessWidget {
                 )
               : RichText(
                   text: TextSpan(
-                    children: HelperWidget.highlightOccurrences(field.queryName, hightLightText),
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                    children: HelperWidget.highlightOccurrences(
+                      field.queryName,
+                      hightLightText,
+                    ),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
         ),

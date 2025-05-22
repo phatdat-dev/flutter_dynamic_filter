@@ -4,7 +4,8 @@ class OptionAdvancedFilterButton extends StatefulWidget {
   const OptionAdvancedFilterButton({super.key});
 
   @override
-  State<OptionAdvancedFilterButton> createState() => _OptionAdvancedFilterButtonState();
+  State<OptionAdvancedFilterButton> createState() =>
+      _OptionAdvancedFilterButtonState();
 }
 
 class _OptionAdvancedFilterButtonState extends State<OptionAdvancedFilterButton>

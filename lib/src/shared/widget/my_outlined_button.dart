@@ -31,7 +31,10 @@ class MyOutlinedButton extends StatelessWidget {
             const SizedBox(width: MyConstants.paddingField),
           ],
           Expanded(child: label),
-          Icon(Icons.expand_more, size: Theme.of(context).textTheme.bodyMedium?.fontSize),
+          Icon(
+            Icons.expand_more,
+            size: Theme.of(context).textTheme.bodyMedium?.fontSize,
+          ),
         ],
       ),
     );

@@ -6,10 +6,13 @@ class DateOperatorTypeFilterEditorItemButton extends StatefulWidget {
   const DateOperatorTypeFilterEditorItemButton({super.key});
 
   @override
-  State<DateOperatorTypeFilterEditorItemButton> createState() => _DateOperatorTypeFilterEditorItemButtonState();
+  State<DateOperatorTypeFilterEditorItemButton> createState() =>
+      _DateOperatorTypeFilterEditorItemButtonState();
 }
 
-class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTypeFilterEditorItemButton> with FieldAdvancedFilterItemStateMixin {
+class _DateOperatorTypeFilterEditorItemButtonState
+    extends State<DateOperatorTypeFilterEditorItemButton>
+    with FieldAdvancedFilterItemStateMixin {
   String formatDate(DateTime date) => DateFormat.yMd().format(date);
 
   @override
@@ -30,13 +33,19 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
   }
 
   Widget buildDefaultSelection() {
-    final dateFieldValue = ((item.value is DefaultDateFieldValue) ? item.value : null) as DefaultDateFieldValue?;
+    final dateFieldValue =
+        ((item.value is DefaultDateFieldValue) ? item.value : null)
+            as DefaultDateFieldValue?;
     item.value = DefaultDateFieldValue(
-      operator: dateFieldValue?.operator ?? DateTimeOperatorSelection.defaultType,
-      value: dateFieldValue?.value ?? DateTimeOperatorSelection.defaultType.value,
+      operator:
+          dateFieldValue?.operator ?? DateTimeOperatorSelection.defaultType,
+      value:
+          dateFieldValue?.value ?? DateTimeOperatorSelection.defaultType.value,
     );
 
-    final operatorSelection = ValueNotifier<DateTimeOperatorSelection>((item.value as DefaultDateFieldValue).operator);
+    final operatorSelection = ValueNotifier<DateTimeOperatorSelection>(
+      (item.value as DefaultDateFieldValue).operator,
+    );
     return ValueListenableBuilder(
       valueListenable: operatorSelection,
       builder: (context, value, child) {
@@ -72,31 +81,36 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
             if (value == DateTimeOperatorSelection.customDate) ...[
               const SizedBox(width: MyConstants.paddingField),
               Expanded(
-                child: Builder(builder: (context) {
-                  final dateSelected = ValueNotifier((item.value as DefaultDateFieldValue).value);
-                  return ValueListenableBuilder(
-                    valueListenable: dateSelected,
-                    builder: (context, value, child) {
-                      return MyOutlinedButton(
-                        label: Text(formatDate(value)),
-                        onPressed: () async {
-                          final result = await showDatePicker(
-                            context: context,
-                            initialDate: value,
-                            firstDate: DateTime(1970),
-                            lastDate: DateTime(2100),
-                          );
-                          if (result != null) {
-                            dateSelected.value = result;
-                            item.value = (item.value as DefaultDateFieldValue).copyWith(
-                              value: result,
+                child: Builder(
+                  builder: (context) {
+                    final dateSelected = ValueNotifier(
+                      (item.value as DefaultDateFieldValue).value,
+                    );
+                    return ValueListenableBuilder(
+                      valueListenable: dateSelected,
+                      builder: (context, value, child) {
+                        return MyOutlinedButton(
+                          label: Text(formatDate(value)),
+                          onPressed: () async {
+                            final result = await showDatePicker(
+                              context: context,
+                              initialDate: value,
+                              firstDate: DateTime(1970),
+                              lastDate: DateTime(2100),
                             );
-                          }
-                        },
-                      );
-                    },
-                  );
-                }),
+                            if (result != null) {
+                              dateSelected.value = result;
+                              item.value = (item.value as DefaultDateFieldValue)
+                                  .copyWith(
+                                    value: result,
+                                  );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           ],
@@ -106,17 +120,27 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
   }
 
   Widget buildIsRelativeToDay() {
-    final dateFieldValue = ((item.value is RelativeToDayDateFieldValue) ? item.value : null) as RelativeToDayDateFieldValue?;
+    final dateFieldValue =
+        ((item.value is RelativeToDayDateFieldValue) ? item.value : null)
+            as RelativeToDayDateFieldValue?;
     item.value = RelativeToDayDateFieldValue(
       relativeTo: dateFieldValue?.relativeTo ?? "This",
       relativeToIndex: dateFieldValue?.relativeToIndex ?? 1,
       unit: dateFieldValue?.unit ?? "Day",
     );
 
-    final selected1 = ValueNotifier((item.value as RelativeToDayDateFieldValue).relativeTo);
-    final selected2 = ValueNotifier((item.value as RelativeToDayDateFieldValue).unit);
+    final selected1 = ValueNotifier(
+      (item.value as RelativeToDayDateFieldValue).relativeTo,
+    );
+    final selected2 = ValueNotifier(
+      (item.value as RelativeToDayDateFieldValue).unit,
+    );
 
-    Widget buildButton(List<String> list, ValueNotifier<String> current, ValueChanged<String> onChanged) {
+    Widget buildButton(
+      List<String> list,
+      ValueNotifier<String> current,
+      ValueChanged<String> onChanged,
+    ) {
       return ValueListenableBuilder(
         valueListenable: current,
         builder: (context, value, child) => MyOutlinedButton(
@@ -151,7 +175,9 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
             (item.value as RelativeToDayDateFieldValue).relativeToList,
             selected1,
             (value) {
-              item.value = (item.value as RelativeToDayDateFieldValue).copyWith(relativeTo: value);
+              item.value = (item.value as RelativeToDayDateFieldValue).copyWith(
+                relativeTo: value,
+              );
               setState(() {});
             },
           ),
@@ -160,12 +186,15 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
           const SizedBox(width: MyConstants.paddingField),
           Expanded(
             child: TextFormField(
-              initialValue: (item.value as RelativeToDayDateFieldValue).relativeToIndex.toString(),
+              initialValue: (item.value as RelativeToDayDateFieldValue)
+                  .relativeToIndex
+                  .toString(),
               keyboardType: TextInputType.number,
               cursorHeight: 15,
               decoration: HelperWidget.myInputDecoration(),
               onChanged: (value) {
-                (item.value as RelativeToDayDateFieldValue).relativeToIndex = int.tryParse(value) ?? 0;
+                (item.value as RelativeToDayDateFieldValue).relativeToIndex =
+                    int.tryParse(value) ?? 0;
               },
             ),
           ),
@@ -176,7 +205,9 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
             (item.value as RelativeToDayDateFieldValue).unitList,
             selected2,
             (value) {
-              item.value = (item.value as RelativeToDayDateFieldValue).copyWith(unit: value);
+              item.value = (item.value as RelativeToDayDateFieldValue).copyWith(
+                unit: value,
+              );
             },
           ),
         ),
@@ -185,15 +216,20 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
   }
 
   Widget buildIsBetween() {
-    final dateFieldValue = ((item.value is DateTimeRangeDateFieldValue) ? item.value : null) as DateTimeRangeDateFieldValue?;
+    final dateFieldValue =
+        ((item.value is DateTimeRangeDateFieldValue) ? item.value : null)
+            as DateTimeRangeDateFieldValue?;
     item.value = DateTimeRangeDateFieldValue(
-      dateTimeRange: dateFieldValue?.dateTimeRange ??
+      dateTimeRange:
+          dateFieldValue?.dateTimeRange ??
           DateTimeRange(
             start: DateTime.now().subtract(const Duration(days: 7)),
             end: DateTime.now(),
           ),
     );
-    final dateSelected = ValueNotifier<DateTimeRange>((item.value as DateTimeRangeDateFieldValue).dateTimeRange);
+    final dateSelected = ValueNotifier<DateTimeRange>(
+      (item.value as DateTimeRangeDateFieldValue).dateTimeRange,
+    );
 
     return ValueListenableBuilder(
       valueListenable: dateSelected,
@@ -208,7 +244,9 @@ class _DateOperatorTypeFilterEditorItemButtonState extends State<DateOperatorTyp
           );
           if (result != null) {
             dateSelected.value = result;
-            item.value = DateTimeRangeDateFieldValue(dateTimeRange: dateSelected.value);
+            item.value = DateTimeRangeDateFieldValue(
+              dateTimeRange: dateSelected.value,
+            );
           }
         },
       ),

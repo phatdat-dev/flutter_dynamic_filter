@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
 
+import '../../flutter_dynamic_filter.dart';
 import 'base_field_value/base_field_value.dart';
 import 'base_model.dart';
 
@@ -11,9 +11,9 @@ enum FilterMustMatch {
   or;
 
   String get label => switch (this) {
-        and => 'And',
-        or => 'Or',
-      };
+    and => 'And',
+    or => 'Or',
+  };
 }
 
 class FieldAdvancedFilter with ChangeNotifier implements BaseModel<FieldAdvancedFilter> {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_dynamic_filter/src/shared/constants/my_constants.dart';
 
 import '../../models/app_filter.dart';
+import '../constants/my_constants.dart';
 import '../widget/field_icon_text.dart';
 import 'helper_reflect.dart';
 
@@ -31,7 +31,9 @@ final class HelperWidget {
       return rootView.size;
     } finally {
       // Clean up.
-      element.update(RenderObjectToWidgetAdapter<RenderBox>(container: rootView));
+      element.update(
+        RenderObjectToWidgetAdapter<RenderBox>(container: rootView),
+      );
       buildOwner.finalizeTree();
     }
   }
@@ -47,7 +49,12 @@ final class HelperWidget {
 
     while (index != -1) {
       spans.add(TextSpan(text: text.substring(lastIndex, index)));
-      spans.add(TextSpan(text: text.substring(index, index + query.length), style: const TextStyle(fontWeight: FontWeight.bold)));
+      spans.add(
+        TextSpan(
+          text: text.substring(index, index + query.length),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
       lastIndex = index + query.length;
       index = lowercaseText.indexOf(lowercaseQuery, lastIndex);
     }
@@ -93,7 +100,12 @@ final class HelperWidget {
           margin: const EdgeInsets.all(padding),
           child: TextField(
             controller: txtController,
-            onChanged: (value) => HelperReflect.search(listOrigin: fields, listSearch: search, nameModel: 'queryName', keywordSearch: value),
+            onChanged: (value) => HelperReflect.search(
+              listOrigin: fields,
+              listSearch: search,
+              nameModel: 'queryName',
+              keywordSearch: value,
+            ),
             decoration: const InputDecoration(
               hintText: "Search...",
               prefixIcon: Icon(Icons.search_rounded),
@@ -155,7 +167,12 @@ final class HelperWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          if (selected != null && selected == value) const Icon(Icons.check, color: Colors.green, size: MyConstants.iconSizeSmall),
+          if (selected != null && selected == value)
+            const Icon(
+              Icons.check,
+              color: Colors.green,
+              size: MyConstants.iconSizeSmall,
+            ),
         ],
       ),
     );
@@ -179,7 +196,9 @@ final class HelperWidget {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(25),
+                ),
               ),
               child: Column(
                 children: [
@@ -235,7 +254,9 @@ final class HelperWidget {
       context: context,
       isScrollControlled: true, //
       builder: (context) => Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: DraggableScrollableSheet(
           initialChildSize: 0.4,
           minChildSize: 0.4,

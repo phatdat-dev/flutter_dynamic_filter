@@ -12,15 +12,15 @@ enum NumberOperator implements OperatorType<num> {
 
   @override
   String get label => switch (this) {
-        iss => "=",
-        isNot => "!=",
-        isGreaterThan => ">",
-        isGreaterThanOrEqual => ">=",
-        isLessThan => "<",
-        isLessThanOrEqual => "<=",
-        isEmpty => "Is empty",
-        isNotEmpty => "Is not empty",
-      };
+    iss => "=",
+    isNot => "!=",
+    isGreaterThan => ">",
+    isGreaterThanOrEqual => ">=",
+    isLessThan => "<",
+    isLessThanOrEqual => "<=",
+    isEmpty => "Is empty",
+    isNotEmpty => "Is not empty",
+  };
 
   @override
   bool applyFilters(num? originValue, dynamic filterValue) {

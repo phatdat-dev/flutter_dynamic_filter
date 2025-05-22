@@ -1,16 +1,23 @@
 part of 'main.dart';
 
-mixin _MyHomePageButtonStateMixin on State<MyHomePage> implements _MyHomePageDataTableStateMixin {
+mixin _MyHomePageButtonStateMixin on State<MyHomePage>
+    implements _MyHomePageDataTableStateMixin {
   late ValueNotifier<Set<FieldSortOrder>> sortOrders;
   late ValueNotifier<List<FieldAdvancedFilter>> advancedFilter;
 
   @override
   void initState() {
     sortOrders = ValueNotifier({
-      ...[0, 1, 4].map((e) => FieldSortOrder(ExampleData.fields[e], OrderByOperator.ascending)),
+      ...[0, 1, 4].map(
+        (e) => FieldSortOrder(ExampleData.fields[e], OrderByOperator.ascending),
+      ),
     });
     advancedFilter = ValueNotifier([
-      ...[0, 1, 4].map((e) => FieldAdvancedFilter(field: ExampleData.fields[e])),
+      ...[
+        0,
+        1,
+        4,
+      ].map((e) => FieldAdvancedFilter(field: ExampleData.fields[e])),
     ]);
     super.initState();
   }
@@ -85,7 +92,10 @@ mixin _MyHomePageButtonStateMixin on State<MyHomePage> implements _MyHomePageDat
               onPressed: () {
                 final filterEngine = FilterEngine(
                   data: originExampleData,
-                  filterGroup: FilterGroup(name: "My Filter", rules: advancedFilter.value),
+                  filterGroup: FilterGroup(
+                    name: "My Filter",
+                    rules: advancedFilter.value,
+                  ),
                   sortOrders: sortOrders.value,
                 );
 
@@ -100,9 +110,15 @@ mixin _MyHomePageButtonStateMixin on State<MyHomePage> implements _MyHomePageDat
               child: const Text("fromJson"),
               onPressed: () async {
                 final json = List.from(
-                        jsonDecode((await rootBundle.loadString('packages/flutter_dynamic_filter/assets/example_data/field_advanced_filter.json'))))
-                    .map((e) => Map<String, dynamic>.from(e));
-                final example = json.map((e) => FieldAdvancedFilter.fromJson(e));
+                  jsonDecode(
+                    (await rootBundle.loadString(
+                      'packages/flutter_dynamic_filter/assets/example_data/field_advanced_filter.json',
+                    )),
+                  ),
+                ).map((e) => Map<String, dynamic>.from(e));
+                final example = json.map(
+                  (e) => FieldAdvancedFilter.fromJson(e),
+                );
                 advancedFilter.value = example.toList();
               },
             ),
@@ -110,7 +126,8 @@ mixin _MyHomePageButtonStateMixin on State<MyHomePage> implements _MyHomePageDat
           SizedBox(
             width: 130,
             child: ElevatedButton(
-              onPressed: () => originExampleData = exampleDataSearch.value = ExampleData.generateExampleData(),
+              onPressed: () => originExampleData = exampleDataSearch.value =
+                  ExampleData.generateExampleData(),
               child: const Text("Generate Data"),
             ),
           ),

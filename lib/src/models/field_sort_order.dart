@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter_dynamic_filter/src/models/field.dart';
 
 import 'enum/operator_type/operator_type.dart';
+import 'field.dart';
 
 class FieldSortOrder extends Equatable {
   Field field;

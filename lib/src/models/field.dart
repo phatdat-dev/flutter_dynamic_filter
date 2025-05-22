@@ -4,7 +4,8 @@ import 'base_field.dart';
 import 'base_model.dart';
 import 'enum/field_type.dart';
 
-class Field extends BaseField implements SearchDelegateQueryName, BaseModel<Field> {
+class Field extends BaseField
+    implements SearchDelegateQueryName, BaseModel<Field> {
   final FieldType type;
 
   Field({

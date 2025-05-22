@@ -1,9 +1,9 @@
 // ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/src/shared/extension/app_extension.dart';
 
 import '../../../../flutter_dynamic_filter.dart';
+import '../../../shared/extension/app_extension.dart';
 
 class AdvancedFilterController {
   final ValueNotifier<List<FieldAdvancedFilter>> advancedFilter;
@@ -22,9 +22,11 @@ class AdvancedFilterController {
 
   void onAddAdvancedFilter() {
     advancedFilter
-      ..value.add(FieldAdvancedFilter(
-        field: fields.randomElement,
-      ))
+      ..value.add(
+        FieldAdvancedFilter(
+          field: fields.randomElement,
+        ),
+      )
       ..notifyListeners();
 
     WidgetsBinding.instance.addPostFrameCallback(

@@ -1,13 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/src/shared/constants/my_constants.dart';
-import 'package:flutter_dynamic_filter/src/shared/extension/app_extension.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/base_model.dart';
 import '../../models/enum/operator_type/operator_type.dart';
 import '../../models/field.dart';
 import '../../models/field_sort_order.dart';
+import '../../shared/constants/my_constants.dart';
+import '../../shared/extension/app_extension.dart';
 import '../../shared/mixin/popup_search_list_field_statemixin.dart';
 import '../../shared/utils/utils.dart';
 import '../../shared/widget/field_icon_text.dart';

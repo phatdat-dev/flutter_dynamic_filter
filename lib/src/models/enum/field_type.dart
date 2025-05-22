@@ -1,5 +1,4 @@
-import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
-
+import '../../../flutter_dynamic_filter.dart';
 import '../../../generated/flowy_svgs.g.dart';
 import '../../shared/widget/flowy_svg.dart';
 
@@ -36,33 +35,33 @@ enum FieldType {
   //     };
 
   FlowySvgData get svgData => switch (this) {
-        Text => FlowySvgs.text_s,
-        Number => FlowySvgs.number_s,
-        Date => FlowySvgs.date_s,
-        SingleSelect => FlowySvgs.single_select_s,
-        MultiSelect => FlowySvgs.multiselect_s,
-        Checkbox => FlowySvgs.checkbox_s,
-        // URL => FlowySvgs.url_s,
-        // Checklist => FlowySvgs.checklist_s,
-        // Relation => FlowySvgs.relation_s,
-        // Summary => FlowySvgs.ai_summary_s,
-      };
+    Text => FlowySvgs.text_s,
+    Number => FlowySvgs.number_s,
+    Date => FlowySvgs.date_s,
+    SingleSelect => FlowySvgs.single_select_s,
+    MultiSelect => FlowySvgs.multiselect_s,
+    Checkbox => FlowySvgs.checkbox_s,
+    // URL => FlowySvgs.url_s,
+    // Checklist => FlowySvgs.checklist_s,
+    // Relation => FlowySvgs.relation_s,
+    // Summary => FlowySvgs.ai_summary_s,
+  };
 
   List<Object> get operatorType => switch (this) {
-        Text => TextOperator.values,
-        Number => NumberOperator.values,
-        Date => DateTimeOperator.values,
-        SingleSelect => TextOperator.values,
-        MultiSelect => TextOperator.values,
-        Checkbox => TextOperator.values,
-      };
+    Text => TextOperator.values,
+    Number => NumberOperator.values,
+    Date => DateTimeOperator.values,
+    SingleSelect => TextOperator.values,
+    MultiSelect => TextOperator.values,
+    Checkbox => TextOperator.values,
+  };
 
   OperatorType get defaultType => switch (this) {
-        Text => TextOperator.contains,
-        Number => NumberOperator.iss,
-        Date => DateTimeOperator.isRelativeToToDay,
-        SingleSelect => TextOperator.iss,
-        MultiSelect => TextOperator.contains,
-        Checkbox => TextOperator.iss,
-      };
+    Text => TextOperator.contains,
+    Number => NumberOperator.iss,
+    Date => DateTimeOperator.isRelativeToToDay,
+    SingleSelect => TextOperator.iss,
+    MultiSelect => TextOperator.contains,
+    Checkbox => TextOperator.iss,
+  };
 }

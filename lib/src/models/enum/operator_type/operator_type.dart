@@ -1,5 +1,4 @@
-import 'package:flutter_dynamic_filter/src/shared/extension/app_extension.dart';
-
+import '../../../shared/extension/app_extension.dart';
 import '../../base_field_value/date_field_value.dart';
 
 part 'date_time_operator.dart';

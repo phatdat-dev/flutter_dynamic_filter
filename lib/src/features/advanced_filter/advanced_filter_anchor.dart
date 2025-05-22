@@ -1,19 +1,19 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/src/models/base_model.dart';
-import 'package:flutter_dynamic_filter/src/shared/mixin/popup_search_list_field_statemixin.dart';
-import 'package:flutter_dynamic_filter/src/shared/widget/my_outlined_button.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/base_field_value/date_field_value.dart';
+import '../../models/base_model.dart';
 import '../../models/enum/field_type.dart';
 import '../../models/enum/operator_type/operator_type.dart';
 import '../../models/field.dart';
 import '../../models/field_advanced_filter.dart';
 import '../../shared/constants/my_constants.dart';
+import '../../shared/mixin/popup_search_list_field_statemixin.dart';
 import '../../shared/utils/helper_widget.dart';
 import '../../shared/widget/field_icon_text.dart';
+import '../../shared/widget/my_outlined_button.dart';
 import '../../shared/widget/my_popup_menu_item.dart';
 import '../../shared/widget/my_text_button.dart';
 import 'controller/advanced_filter_controller.dart';
@@ -100,12 +100,12 @@ class AdvancedFilterAnchor extends StatelessWidget {
   }
 
   Widget buildProvider(Widget child) => Provider(
-        create: (context) => AdvancedFilterController(
-          advancedFilter: advancedFilter,
-          fields: fields,
-        ),
-        builder: (context, _) => child,
-      );
+    create: (context) => AdvancedFilterController(
+      advancedFilter: advancedFilter,
+      fields: fields,
+    ),
+    builder: (context, _) => child,
+  );
 }
 
 class _AdvancedFilterAnchorButton extends AdvancedFilterAnchor {

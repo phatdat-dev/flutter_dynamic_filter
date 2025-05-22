@@ -9,7 +9,8 @@ class FilterMustmatchButton extends StatefulWidget {
   State<FilterMustmatchButton> createState() => _FilterMustmatchButtonState();
 }
 
-class _FilterMustmatchButtonState extends State<FilterMustmatchButton> with AdvancedFilterControllerStateMixin {
+class _FilterMustmatchButtonState extends State<FilterMustmatchButton>
+    with AdvancedFilterControllerStateMixin {
   late final int index;
   @override
   void initState() {
@@ -34,10 +35,12 @@ class _FilterMustmatchButtonState extends State<FilterMustmatchButton> with Adva
           final result = await HelperWidget.showPopupMenu(
             context: context,
             items: FilterMustMatch.values
-                .map((e) => PopupMenuItem(
-                      value: e,
-                      child: Text(e.label),
-                    ))
+                .map(
+                  (e) => PopupMenuItem(
+                    value: e,
+                    child: Text(e.label),
+                  ),
+                )
                 .toList(),
           );
           if (result != null && result != item.mustMatch) {

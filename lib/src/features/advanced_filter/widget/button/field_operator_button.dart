@@ -7,7 +7,8 @@ class FieldOperatorButton extends StatefulWidget {
   State<FieldOperatorButton> createState() => _FieldOperatorButtonState();
 }
 
-class _FieldOperatorButtonState extends State<FieldOperatorButton> with AdvancedFilterControllerStateMixin, FieldAdvancedFilterItemStateMixin {
+class _FieldOperatorButtonState extends State<FieldOperatorButton>
+    with AdvancedFilterControllerStateMixin, FieldAdvancedFilterItemStateMixin {
   void _showConditionPopupMenu(BuildContext context) {
     HelperWidget.showPopupMenu(
       context: context,

@@ -43,7 +43,9 @@ class FilterEngine {
   }
 
   /// Only apply the filter to the data
-  List<Map<String, dynamic>> filterList([Iterable<Map<String, dynamic>>? list]) {
+  List<Map<String, dynamic>> filterList([
+    Iterable<Map<String, dynamic>>? list,
+  ]) {
     return (list ?? data).where((item) {
       final List<bool> conditions = [];
       for (final rule in filterGroup?.rules ?? <FieldAdvancedFilter>[]) {
@@ -72,7 +74,12 @@ class FilterEngine {
     return list;
   }
 
-  int _recursiveSort(Map<String, dynamic> a, Map<String, dynamic> b, Set<FieldSortOrder> sortOrders, int index) {
+  int _recursiveSort(
+    Map<String, dynamic> a,
+    Map<String, dynamic> b,
+    Set<FieldSortOrder> sortOrders,
+    int index,
+  ) {
     if (index >= sortOrders.length) {
       return 0; // All comparators are equal
     }

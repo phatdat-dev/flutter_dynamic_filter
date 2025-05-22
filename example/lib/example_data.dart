@@ -14,7 +14,13 @@ class ExampleData {
     Field(name: 'Status', type: FieldType.SingleSelect),
   ];
   static Future<List<Map<String, dynamic>>> loadExampleData() async {
-    return List.from(jsonDecode((await rootBundle.loadString('packages/flutter_dynamic_filter/assets/example_data/data.json')))).map((e) {
+    return List.from(
+      jsonDecode(
+        (await rootBundle.loadString(
+          'packages/flutter_dynamic_filter/assets/example_data/data.json',
+        )),
+      ),
+    ).map((e) {
       try {
         final tryParseDateTime = DateTime.tryParse(e['Date']);
         if (tryParseDateTime != null) e['Date'] = tryParseDateTime;
@@ -61,15 +67,49 @@ class ExampleData {
       "Zane",
     ];
     final status = ["Active", "Pending", "Deleted", "Banned", "Draft"];
-    final street = ["Main", "First", "Second", "Third", "Fourth", "Park", "Oak", "Pine", "Elm", "Maple"];
-    final streetType = ["St", "Ave", "Blvd", "Cir", "Ct", "Dr", "Ln", "Pkwy", "Rd", "St", "Way"];
-    final city = ["Anytown", "Otherville", "Someburg", "Everycity", "Nowhere", "Uptown", "Downtown", "Outatown"];
+    final street = [
+      "Main",
+      "First",
+      "Second",
+      "Third",
+      "Fourth",
+      "Park",
+      "Oak",
+      "Pine",
+      "Elm",
+      "Maple",
+    ];
+    final streetType = [
+      "St",
+      "Ave",
+      "Blvd",
+      "Cir",
+      "Ct",
+      "Dr",
+      "Ln",
+      "Pkwy",
+      "Rd",
+      "St",
+      "Way",
+    ];
+    final city = [
+      "Anytown",
+      "Otherville",
+      "Someburg",
+      "Everycity",
+      "Nowhere",
+      "Uptown",
+      "Downtown",
+      "Outatown",
+    ];
 
     for (int i = 1; i <= 500; i++) {
       final data = <String, dynamic>{
-        "Name": "${names[random.nextInt(names.length)]} ${names[random.nextInt(names.length)]}",
+        "Name":
+            "${names[random.nextInt(names.length)]} ${names[random.nextInt(names.length)]}",
         "Age": random.nextInt(100) + 18, // Age from 18 to 117
-        "Phone": "${random.nextInt(1000).toString().padLeft(3, '0')}-${random.nextInt(10000).toString().padLeft(4, '0')}",
+        "Phone":
+            "${random.nextInt(1000).toString().padLeft(3, '0')}-${random.nextInt(10000).toString().padLeft(4, '0')}",
         "Address":
             "${random.nextInt(1000) + 1} ${street[random.nextInt(street.length)]} ${streetType[random.nextInt(streetType.length)]}, ${city[random.nextInt(city.length)]}",
         "Date": DateTime.now().add(Duration(days: random.nextInt(30) - 15)),

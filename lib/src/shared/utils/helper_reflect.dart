@@ -7,8 +7,12 @@ import '../../models/base_model.dart';
 
 class HelperReflect {
   //muon su dung ham` nay` thi` phai co' reflectable moi xai dc
-  static void search<T>(
-      {required Iterable<T> listOrigin, required ValueNotifier<List<T>> listSearch, required String nameModel, required String keywordSearch}) {
+  static void search<T>({
+    required Iterable<T> listOrigin,
+    required ValueNotifier<List<T>> listSearch,
+    required String nameModel,
+    required String keywordSearch,
+  }) {
     keywordSearch = keywordSearch.toLowerCase().trim();
     var newList = listOrigin.where((element) {
       String? insMirror;
@@ -31,16 +35,24 @@ class HelperReflect {
     // listSearch.refresh();
   }
 
-  static void sortAZ<T>({required ValueNotifier<bool> isSort, required String nameModelSortAZ, required ValueNotifier<List<T>> listSearch}) {
+  static void sortAZ<T>({
+    required ValueNotifier<bool> isSort,
+    required String nameModelSortAZ,
+    required ValueNotifier<List<T>> listSearch,
+  }) {
     (isSort.value)
         ? listSearch.value.sort((a, b) {
-            final insMirrorA = (a as BaseModel).toJson()[nameModelSortAZ] as String;
-            final insMirrorB = (b as BaseModel).toJson()[nameModelSortAZ] as String;
+            final insMirrorA =
+                (a as BaseModel).toJson()[nameModelSortAZ] as String;
+            final insMirrorB =
+                (b as BaseModel).toJson()[nameModelSortAZ] as String;
             return compareNatural(insMirrorA, insMirrorB);
           })
         : listSearch.value.sort((a, b) {
-            final insMirrorA = (a as BaseModel).toJson()[nameModelSortAZ] as String;
-            final insMirrorB = (b as BaseModel).toJson()[nameModelSortAZ] as String;
+            final insMirrorA =
+                (a as BaseModel).toJson()[nameModelSortAZ] as String;
+            final insMirrorB =
+                (b as BaseModel).toJson()[nameModelSortAZ] as String;
             return compareNatural(insMirrorB, insMirrorA);
           });
     isSort.value = !isSort.value;

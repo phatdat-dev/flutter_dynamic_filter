@@ -16,7 +16,8 @@ class MyPopupMenuItem<T> extends PopupMenuEntry<T> {
   bool represents(T? value) => false;
 
   @override
-  MyPopupMenuItemState<T, MyPopupMenuItem<T>> createState() => MyPopupMenuItemState<T, MyPopupMenuItem<T>>();
+  MyPopupMenuItemState<T, MyPopupMenuItem<T>> createState() =>
+      MyPopupMenuItemState<T, MyPopupMenuItem<T>>();
 }
 
 class MyPopupMenuItemState<T, W extends MyPopupMenuItem<T>> extends State<W> {

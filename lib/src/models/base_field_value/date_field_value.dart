@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dynamic_filter/src/shared/extension/app_extension.dart';
 
+import '../../shared/extension/app_extension.dart';
 import '../base_field.dart';
 import '../enum/operator_type/operator_type.dart';
 
@@ -34,9 +34,21 @@ class RelativeToDayDateFieldValue extends DateFieldValue<RelativeToDayDateFieldV
       case "Week":
         return relativeTo == "This" ? _now.subtract(Duration(days: _now.weekday - 1)) : _now.add(Duration(days: 7 * relativeToIndex * multiplier));
       case "Month":
-        return relativeTo == "This" ? DateTime(_now.year, _now.month, 1) : DateTime(_now.year, _now.month + relativeToIndex * multiplier, _now.day);
+        return relativeTo == "This"
+            ? DateTime(_now.year, _now.month, 1)
+            : DateTime(
+                _now.year,
+                _now.month + relativeToIndex * multiplier,
+                _now.day,
+              );
       case "Year":
-        return relativeTo == "This" ? DateTime(_now.year, 1, 1) : DateTime(_now.year + relativeToIndex * multiplier, _now.month, _now.day);
+        return relativeTo == "This"
+            ? DateTime(_now.year, 1, 1)
+            : DateTime(
+                _now.year + relativeToIndex * multiplier,
+                _now.month,
+                _now.day,
+              );
       default:
         throw Exception("Invalid unit");
     }
@@ -56,10 +68,10 @@ class RelativeToDayDateFieldValue extends DateFieldValue<RelativeToDayDateFieldV
   }
 
   factory RelativeToDayDateFieldValue.fromJson(Map<String, dynamic> json) => RelativeToDayDateFieldValue(
-        relativeTo: json["relativeTo"],
-        relativeToIndex: json["relativeToIndex"],
-        unit: json["unit"],
-      );
+    relativeTo: json["relativeTo"],
+    relativeToIndex: json["relativeToIndex"],
+    unit: json["unit"],
+  );
 
   @override
   RelativeToDayDateFieldValue fromJson(Map<String, dynamic> json) => RelativeToDayDateFieldValue.fromJson(json);
@@ -100,9 +112,9 @@ class DefaultDateFieldValue extends DateFieldValue<DefaultDateFieldValue> {
   });
 
   factory DefaultDateFieldValue.fromJson(Map<String, dynamic> json) => DefaultDateFieldValue(
-        operator: DateTimeOperatorSelection.values.byName(json["operator"]),
-        value: DateTime.parse(json["value"]),
-      );
+    operator: DateTimeOperatorSelection.values.byName(json["operator"]),
+    value: DateTime.parse(json["value"]),
+  );
 
   @override
   DefaultDateFieldValue fromJson(Map<String, dynamic> json) => DefaultDateFieldValue.fromJson(json);
@@ -138,11 +150,11 @@ class DateTimeRangeDateFieldValue extends DateFieldValue<DateTimeRangeDateFieldV
   });
 
   factory DateTimeRangeDateFieldValue.fromJson(Map<String, dynamic> json) => DateTimeRangeDateFieldValue(
-        dateTimeRange: DateTimeRange(
-          start: DateTime.parse(json["start"]),
-          end: DateTime.parse(json["end"]),
-        ),
-      );
+    dateTimeRange: DateTimeRange(
+      start: DateTime.parse(json["start"]),
+      end: DateTime.parse(json["end"]),
+    ),
+  );
 
   @override
   DateTimeRangeDateFieldValue fromJson(Map<String, dynamic> json) => DateTimeRangeDateFieldValue.fromJson(json);

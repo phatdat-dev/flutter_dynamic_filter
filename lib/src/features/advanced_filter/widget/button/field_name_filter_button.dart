@@ -8,9 +8,13 @@ class FieldNameFilterButton extends StatefulWidget {
 }
 
 class _FieldNameFilterButtonState extends State<FieldNameFilterButton>
-    with AdvancedFilterControllerStateMixin, PopupSearchListFieldStateMixin, FieldAdvancedFilterItemStateMixin {
+    with
+        AdvancedFilterControllerStateMixin,
+        PopupSearchListFieldStateMixin,
+        FieldAdvancedFilterItemStateMixin {
   @override
-  (ValueNotifier<Iterable> list, List<Field> fields) get popUpListField => (controller.advancedFilter, controller.fields);
+  (ValueNotifier<Iterable> list, List<Field> fields) get popUpListField =>
+      (controller.advancedFilter, controller.fields);
 
   @override
   bool get allowDuplicate => true;

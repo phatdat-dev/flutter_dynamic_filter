@@ -11,9 +11,11 @@ class FieldNameSortButton extends StatefulWidget {
   State<FieldNameSortButton> createState() => _FieldNameSortButtonState();
 }
 
-class _FieldNameSortButtonState extends State<FieldNameSortButton> with SortControllerStateMixin, PopupSearchListFieldStateMixin {
+class _FieldNameSortButtonState extends State<FieldNameSortButton>
+    with SortControllerStateMixin, PopupSearchListFieldStateMixin {
   @override
-  (ValueNotifier<Set> list, List<Field> fields) get popUpListField => (controller.sortOrders, controller.fields);
+  (ValueNotifier<Set> list, List<Field> fields) get popUpListField =>
+      (controller.sortOrders, controller.fields);
 
   @override
   Widget build(BuildContext context) {

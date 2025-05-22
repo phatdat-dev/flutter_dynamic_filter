@@ -44,12 +44,13 @@ class _BuildDateInput extends StatelessWidget {
               SizedBox(width: 60, child: FilterMustmatchButton()),
               SizedBox(width: MyConstants.paddingField),
               Expanded(
-                  child: Row(
-                children: [
-                  Expanded(child: FieldNameFilterButton()),
-                  //todo: future here StartDate - EndDate picker
-                ],
-              )),
+                child: Row(
+                  children: [
+                    Expanded(child: FieldNameFilterButton()),
+                    //todo: future here StartDate - EndDate picker
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -82,19 +83,22 @@ class _BuildTextFieldInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _BuildFieldInput(builder: (context) {
-      final item = context.read<FieldAdvancedFilter>();
-      if (item.operatorType == TextOperator.isEmpty || item.operatorType == TextOperator.isNotEmpty) {
-        item.value = null;
-        return const SizedBox();
-      }
-      return TextFormField(
-        initialValue: (item.value is String?) ? item.value?.toString() : null,
-        cursorHeight: 15,
-        decoration: HelperWidget.myInputDecoration(),
-        onChanged: (value) => item.value = value,
-      );
-    });
+    return _BuildFieldInput(
+      builder: (context) {
+        final item = context.read<FieldAdvancedFilter>();
+        if (item.operatorType == TextOperator.isEmpty ||
+            item.operatorType == TextOperator.isNotEmpty) {
+          item.value = null;
+          return const SizedBox();
+        }
+        return TextFormField(
+          initialValue: (item.value is String?) ? item.value?.toString() : null,
+          cursorHeight: 15,
+          decoration: HelperWidget.myInputDecoration(),
+          onChanged: (value) => item.value = value,
+        );
+      },
+    );
   }
 }
 
@@ -103,20 +107,23 @@ class _BuildNumberFieldInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _BuildFieldInput(builder: (context) {
-      final item = context.read<FieldAdvancedFilter>();
-      if (item.operatorType == NumberOperator.isEmpty || item.operatorType == NumberOperator.isNotEmpty) {
-        item.value = null;
-        return const SizedBox();
-      }
-      return TextFormField(
-        initialValue: (item.value is num?) ? item.value?.toString() : null,
-        cursorHeight: 15,
-        keyboardType: TextInputType.number,
-        decoration: HelperWidget.myInputDecoration(),
-        onChanged: (value) => item.value = num.tryParse(value),
-      );
-    });
+    return _BuildFieldInput(
+      builder: (context) {
+        final item = context.read<FieldAdvancedFilter>();
+        if (item.operatorType == NumberOperator.isEmpty ||
+            item.operatorType == NumberOperator.isNotEmpty) {
+          item.value = null;
+          return const SizedBox();
+        }
+        return TextFormField(
+          initialValue: (item.value is num?) ? item.value?.toString() : null,
+          cursorHeight: 15,
+          keyboardType: TextInputType.number,
+          decoration: HelperWidget.myInputDecoration(),
+          onChanged: (value) => item.value = num.tryParse(value),
+        );
+      },
+    );
   }
 }
 

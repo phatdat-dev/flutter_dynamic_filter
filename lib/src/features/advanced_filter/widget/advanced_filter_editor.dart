@@ -13,7 +13,8 @@ class AdvancedFilterEditor extends StatefulWidget {
   State<AdvancedFilterEditor> createState() => _AdvancedFilterEditorState();
 }
 
-class _AdvancedFilterEditorState extends State<AdvancedFilterEditor> with AdvancedFilterControllerStateMixin {
+class _AdvancedFilterEditorState extends State<AdvancedFilterEditor>
+    with AdvancedFilterControllerStateMixin {
   @override
   void initState() {
     super.initState();
@@ -25,7 +26,9 @@ class _AdvancedFilterEditorState extends State<AdvancedFilterEditor> with Advanc
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
-        constraints: widget.constraints ?? BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width),
+        constraints:
+            widget.constraints ??
+            BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width),
         child: _buildContent(),
       ),
     );
@@ -36,7 +39,9 @@ class _AdvancedFilterEditorState extends State<AdvancedFilterEditor> with Advanc
       valueListenable: controller.advancedFilter,
       builder: (context, value, child) => ReorderableListView(
         onReorder: (oldIndex, newIndex) {},
-        scrollController: widget.scrollController == null ? controller.scrollController : null,
+        scrollController: widget.scrollController == null
+            ? controller.scrollController
+            : null,
         shrinkWrap: true,
         primary: false,
         buildDefaultDragHandles: false,

@@ -20,7 +20,9 @@ mixin PopupSearchListFieldStateMixin<T extends StatefulWidget> on State<T> {
     _fields = popUpListField.$2.toList();
     // remove where data is already in sortOrders
     if (!allowDuplicate) {
-      _fields.removeWhere((e) => popUpListField.$1.value.any((sort) => sort.field == e));
+      _fields.removeWhere(
+        (e) => popUpListField.$1.value.any((sort) => sort.field == e),
+      );
     }
   }
 

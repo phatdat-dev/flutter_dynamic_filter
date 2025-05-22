@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 // }
 
 mixin ResponsiveMixin on Diagnosticable {
-// mixin ResponsiveMixin {
+  // mixin ResponsiveMixin {
   static late bool isMobile;
   static late bool isTablet;
   static late bool isDesktop;
@@ -34,7 +34,10 @@ mixin ResponsiveMixin on Diagnosticable {
 
         /// Nếu đang ở trạng thái bình thường (nằm dọc-mobile)
         isMobile = isPortrait && (width < settings.mobileChangePoint);
-        isTablet = isPortrait && (width >= settings.mobileChangePoint) && (width < settings.desktopChangePoint);
+        isTablet =
+            isPortrait &&
+            (width >= settings.mobileChangePoint) &&
+            (width < settings.desktopChangePoint);
         isDesktop = (width >= settings.desktopChangePoint);
 
         Widget? widget;
@@ -47,11 +50,12 @@ mixin ResponsiveMixin on Diagnosticable {
           widget = buildMobile(context);
         }
         widget ??= const Center(
-            child: Text(
-          'Sorry, this screen is not supported yet.',
-          style: TextStyle(color: Colors.red, fontSize: 16),
-          textAlign: TextAlign.center,
-        ));
+          child: Text(
+            'Sorry, this screen is not supported yet.',
+            style: TextStyle(color: Colors.red, fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        );
 
         return wrapWidget(context, widget) ?? widget;
       },
