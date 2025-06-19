@@ -6,22 +6,12 @@ import 'enum/operator_type/operator_type.dart';
 import 'field_advanced_filter.dart';
 import 'field_sort_order.dart';
 
-class FilterGroup {
-  /// Name of the group
-  final String name;
+class FilterEngine<T> {
+  /// Your data
+  final List<T> data;
 
-  /// List of rules to apply
-  final Iterable<FieldAdvancedFilter> rules;
-
-  FilterGroup({
-    this.name = '',
-    required this.rules,
-  });
-}
-
-class FilterEngine {
-  /// Your data Json
-  final List<Map<String, dynamic>> data;
+  /// Function to extract value from object by field name
+  final dynamic Function(T item, String fieldName) valueExtractor;
 
   /// FilterGroup to apply to the data
   final FilterGroup? filterGroup;
@@ -31,41 +21,39 @@ class FilterEngine {
 
   FilterEngine({
     required this.data,
+    required this.valueExtractor,
     this.filterGroup,
     this.sortOrders,
   });
 
+  /// Legacy constructor for Map\<String, dynamic\> compatibility
+  FilterEngine.fromMap({
+    required List<Map<String, dynamic>> data,
+    FilterGroup? filterGroup,
+    Set<FieldSortOrder>? sortOrders,
+  }) : this(
+         data: List.from(data),
+         valueExtractor: (item, fieldName) => (item as Map<String, dynamic>)[fieldName],
+         filterGroup: filterGroup,
+         sortOrders: sortOrders,
+       );
+
   /// Apply the filter and sort to the data
-  List<Map<String, dynamic>> applyFilterAndSort() {
+  List<T> applyFilterAndSort() {
     var result = filterList(data);
     result = sortList(result);
     return result;
   }
 
   /// Only apply the filter to the data
-  List<Map<String, dynamic>> filterList([
-    Iterable<Map<String, dynamic>>? list,
-  ]) {
+  List<T> filterList([Iterable<T>? list]) {
     return (list ?? data).where((item) {
-      final List<bool> conditions = [];
-      for (final rule in filterGroup?.rules ?? <FieldAdvancedFilter>[]) {
-        conditions.add(rule.applyFilters(item));
-
-        if (rule.mustMatch == FilterMustMatch.and) {
-          // if any of the conditions is false, then the whole rule is false
-          if (!conditions.last) break;
-        } else if (rule.mustMatch == FilterMustMatch.or) {
-          // if any of the conditions is true, then the whole rule is true
-          if (conditions.last) break;
-        }
-      }
-      // all true
-      return conditions.every((e) => e);
+      return _evaluateFilterGroup(filterGroup, item);
     }).toList();
   }
 
   /// Only apply the sort to the data
-  List<Map<String, dynamic>> sortList([List<Map<String, dynamic>>? list]) {
+  List<T> sortList([List<T>? list]) {
     list = List.from(list ??= data);
     if (sortOrders == null) return list;
 
@@ -74,9 +62,39 @@ class FilterEngine {
     return list;
   }
 
+  /// Evaluate a filter group against an item
+  bool _evaluateFilterGroup(FilterGroup? group, T item) {
+    if (group == null) return true;
+
+    final ruleResults = <bool>[];
+    final subGroupResults = <bool>[];
+
+    // Evaluate field rules
+    for (final rule in group.rules) {
+      final fieldValue = valueExtractor(item, rule.field.name);
+      ruleResults.add(rule.applyFilters(fieldValue));
+    }
+
+    // Evaluate sub groups
+    for (final subGroup in group.subGroups) {
+      subGroupResults.add(_evaluateFilterGroup(subGroup, item));
+    }
+
+    final allResults = [...ruleResults, ...subGroupResults];
+    if (allResults.isEmpty) return true;
+
+    // Apply logic
+    switch (group.logic) {
+      case FilterLogic.and:
+        return allResults.every((result) => result);
+      case FilterLogic.or:
+        return allResults.any((result) => result);
+    }
+  }
+
   int _recursiveSort(
-    Map<String, dynamic> a,
-    Map<String, dynamic> b,
+    T a,
+    T b,
     Set<FieldSortOrder> sortOrders,
     int index,
   ) {
@@ -85,8 +103,8 @@ class FilterEngine {
     }
 
     final sortOrder = sortOrders.elementAt(index);
-    final valueA = a[sortOrder.field.name] ?? '';
-    final valueB = b[sortOrder.field.name] ?? '';
+    final valueA = valueExtractor(a, sortOrder.field.name) ?? '';
+    final valueB = valueExtractor(b, sortOrder.field.name) ?? '';
 
     int comparison;
     if (valueA is Comparable && valueB is Comparable) {
@@ -107,3 +125,44 @@ class FilterEngine {
     return _recursiveSort(a, b, sortOrders, index + 1);
   }
 }
+
+class FilterGroup {
+  /// Name of the group
+  final String name;
+
+  /// Logic to combine rules (AND/OR)
+  final FilterLogic logic;
+
+  /// List of field filters to apply
+  final List<FieldAdvancedFilter> rules;
+
+  /// Nested filter groups
+  final List<FilterGroup> subGroups;
+
+  FilterGroup({
+    this.name = '',
+    this.logic = FilterLogic.and,
+    this.rules = const [],
+    this.subGroups = const [],
+  });
+
+  factory FilterGroup.fromJson(Map<String, dynamic> json) {
+    return FilterGroup(
+      name: json['name'] ?? '',
+      logic: FilterLogic.values.byName(json['logic'] ?? 'and'),
+      rules: (json['rules'] as List?)?.map((r) => FieldAdvancedFilter.fromJson(r)).toList() ?? [],
+      subGroups: (json['subGroups'] as List?)?.map((g) => FilterGroup.fromJson(g)).toList() ?? [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'logic': logic.name,
+      'rules': rules.map((r) => r.toJson()).toList(),
+      'subGroups': subGroups.map((g) => g.toJson()).toList(),
+    };
+  }
+}
+
+enum FilterLogic { and, or }

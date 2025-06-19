@@ -19,7 +19,7 @@ mixin IsSelectedModel<R> on BaseModel<R> {
 ///  Object? objectt;
 /// ```
 abstract class SearchDelegateQueryName {
+  Object? objectt;
   String get queryName;
   set queryName(String value) => queryName = value;
-  Object? objectt;
 }

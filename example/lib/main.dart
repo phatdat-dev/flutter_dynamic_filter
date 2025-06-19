@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_filter/flutter_dynamic_filter.dart';
 
+import 'comprehensive_example.dart';
 import 'example_data.dart';
 
 part 'button.part.dart';
@@ -21,18 +22,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'flutter_dynamic_filter',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
       //https://stackoverflow.com/questions/69232764/flutter-web-cannot-scroll-with-mouse-down-drag-flutter-2-5
       scrollBehavior: const MaterialScrollBehavior().copyWith(
-        dragDevices: {
-          PointerDeviceKind.mouse,
-          PointerDeviceKind.touch,
-          PointerDeviceKind.stylus,
-          PointerDeviceKind.unknown,
-        },
+        dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch, PointerDeviceKind.stylus, PointerDeviceKind.unknown},
       ),
       home: const MyHomePage(),
     );
@@ -46,13 +39,20 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with _MyHomePageDataTableStateMixin, _MyHomePageButtonStateMixin {
+class _MyHomePageState extends State<MyHomePage> with _MyHomePageDataTableStateMixin, _MyHomePageButtonStateMixin {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ComprehensiveExampleApp())),
+            child: const Text("ComprehensiveExampleApp"),
+          ),
+          SizedBox(width: 20),
+        ],
+      ),
       body: width > 1000
           ? Row(
               children: [
@@ -64,11 +64,7 @@ class _MyHomePageState extends State<MyHomePage>
               scrollDirection: Axis.horizontal,
               children: [
                 _buildButton(),
-                SizedBox(
-                  width: width,
-                  height: double.infinity,
-                  child: _buildDataTable(),
-                ),
+                SizedBox(width: width, height: double.infinity, child: _buildDataTable()),
               ],
             ),
     );

@@ -8,6 +8,84 @@ import '../enum/operator_type/operator_type.dart';
 
 abstract class DateFieldValue<T> implements BaseFieldValue<T> {}
 
+class DateTimeRangeDateFieldValue extends DateFieldValue<DateTimeRangeDateFieldValue> {
+  final DateTimeRange dateTimeRange;
+
+  DateTimeRangeDateFieldValue({
+    required this.dateTimeRange,
+  });
+
+  factory DateTimeRangeDateFieldValue.fromJson(Map<String, dynamic> json) => DateTimeRangeDateFieldValue(
+    dateTimeRange: DateTimeRange(
+      start: DateTime.parse(json["start"]),
+      end: DateTime.parse(json["end"]),
+    ),
+  );
+
+  // copyWith
+  DateTimeRangeDateFieldValue copyWith({
+    DateTimeRange? dateTimeRange,
+  }) {
+    return DateTimeRangeDateFieldValue(
+      dateTimeRange: dateTimeRange ?? this.dateTimeRange,
+    );
+  }
+
+  @override
+  DateTimeRangeDateFieldValue fromJson(Map<String, dynamic> json) => DateTimeRangeDateFieldValue.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["start"] = dateTimeRange.start.toIso8601String();
+    data["end"] = dateTimeRange.end.toIso8601String();
+    return data;
+  }
+
+  @override
+  String toString() => jsonEncode(toJson());
+}
+
+class DefaultDateFieldValue extends DateFieldValue<DefaultDateFieldValue> {
+  final DateTimeOperatorSelection operator;
+  final DateTime value;
+
+  DefaultDateFieldValue({
+    required this.operator,
+    required this.value,
+  });
+
+  factory DefaultDateFieldValue.fromJson(Map<String, dynamic> json) => DefaultDateFieldValue(
+    operator: DateTimeOperatorSelection.values.byName(json["operator"]),
+    value: DateTime.parse(json["value"]),
+  );
+
+  // copyWith
+  DefaultDateFieldValue copyWith({
+    DateTimeOperatorSelection? operator,
+    DateTime? value,
+  }) {
+    return DefaultDateFieldValue(
+      operator: operator ?? this.operator,
+      value: value ?? this.value,
+    );
+  }
+
+  @override
+  DefaultDateFieldValue fromJson(Map<String, dynamic> json) => DefaultDateFieldValue.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["operator"] = operator.name;
+    data["value"] = value.toIso8601String();
+    return data;
+  }
+
+  @override
+  String toString() => jsonEncode(toJson());
+}
+
 class RelativeToDayDateFieldValue extends DateFieldValue<RelativeToDayDateFieldValue> {
   final String relativeTo;
   int relativeToIndex;
@@ -22,7 +100,13 @@ class RelativeToDayDateFieldValue extends DateFieldValue<RelativeToDayDateFieldV
     _now = DateTime.now();
   }
 
+  factory RelativeToDayDateFieldValue.fromJson(Map<String, dynamic> json) => RelativeToDayDateFieldValue(
+    relativeTo: json["relativeTo"],
+    relativeToIndex: json["relativeToIndex"],
+    unit: json["unit"],
+  );
   List<String> get relativeToList => ["Past", "Next", "This"];
+
   List<String> get unitList => ["Day", "Week", "Month", "Year"];
 
   DateTime get value {
@@ -54,37 +138,6 @@ class RelativeToDayDateFieldValue extends DateFieldValue<RelativeToDayDateFieldV
     }
   }
 
-  bool isRelativeToToDay(DateTime originValue) {
-    switch (_now.compareTo(value)) {
-      case -1: // isFuture
-        return originValue.isBetween(from: _now, to: value);
-      case 1: // isPast
-        return originValue.isBetween(from: value, to: _now);
-      case 0: // isCurrent
-        return originValue.day == value.day && originValue.month == value.month && originValue.year == value.year;
-      default:
-        return false;
-    }
-  }
-
-  factory RelativeToDayDateFieldValue.fromJson(Map<String, dynamic> json) => RelativeToDayDateFieldValue(
-    relativeTo: json["relativeTo"],
-    relativeToIndex: json["relativeToIndex"],
-    unit: json["unit"],
-  );
-
-  @override
-  RelativeToDayDateFieldValue fromJson(Map<String, dynamic> json) => RelativeToDayDateFieldValue.fromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data["relativeTo"] = relativeTo;
-    data["relativeToIndex"] = relativeToIndex;
-    data["unit"] = unit;
-    return data;
-  }
-
   // copyWith
   RelativeToDayDateFieldValue copyWith({
     String? relativeTo,
@@ -99,81 +152,28 @@ class RelativeToDayDateFieldValue extends DateFieldValue<RelativeToDayDateFieldV
   }
 
   @override
-  String toString() => jsonEncode(toJson());
-}
+  RelativeToDayDateFieldValue fromJson(Map<String, dynamic> json) => RelativeToDayDateFieldValue.fromJson(json);
 
-class DefaultDateFieldValue extends DateFieldValue<DefaultDateFieldValue> {
-  final DateTimeOperatorSelection operator;
-  final DateTime value;
-
-  DefaultDateFieldValue({
-    required this.operator,
-    required this.value,
-  });
-
-  factory DefaultDateFieldValue.fromJson(Map<String, dynamic> json) => DefaultDateFieldValue(
-    operator: DateTimeOperatorSelection.values.byName(json["operator"]),
-    value: DateTime.parse(json["value"]),
-  );
-
-  @override
-  DefaultDateFieldValue fromJson(Map<String, dynamic> json) => DefaultDateFieldValue.fromJson(json);
+  bool isRelativeToToDay(DateTime originValue) {
+    switch (_now.compareTo(value)) {
+      case -1: // isFuture
+        return originValue.isBetween(from: _now, to: value);
+      case 1: // isPast
+        return originValue.isBetween(from: value, to: _now);
+      case 0: // isCurrent
+        return originValue.day == value.day && originValue.month == value.month && originValue.year == value.year;
+      default:
+        return false;
+    }
+  }
 
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data["operator"] = operator.name;
-    data["value"] = value.toIso8601String();
+    data["relativeTo"] = relativeTo;
+    data["relativeToIndex"] = relativeToIndex;
+    data["unit"] = unit;
     return data;
-  }
-
-  // copyWith
-  DefaultDateFieldValue copyWith({
-    DateTimeOperatorSelection? operator,
-    DateTime? value,
-  }) {
-    return DefaultDateFieldValue(
-      operator: operator ?? this.operator,
-      value: value ?? this.value,
-    );
-  }
-
-  @override
-  String toString() => jsonEncode(toJson());
-}
-
-class DateTimeRangeDateFieldValue extends DateFieldValue<DateTimeRangeDateFieldValue> {
-  final DateTimeRange dateTimeRange;
-
-  DateTimeRangeDateFieldValue({
-    required this.dateTimeRange,
-  });
-
-  factory DateTimeRangeDateFieldValue.fromJson(Map<String, dynamic> json) => DateTimeRangeDateFieldValue(
-    dateTimeRange: DateTimeRange(
-      start: DateTime.parse(json["start"]),
-      end: DateTime.parse(json["end"]),
-    ),
-  );
-
-  @override
-  DateTimeRangeDateFieldValue fromJson(Map<String, dynamic> json) => DateTimeRangeDateFieldValue.fromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data["start"] = dateTimeRange.start.toIso8601String();
-    data["end"] = dateTimeRange.end.toIso8601String();
-    return data;
-  }
-
-  // copyWith
-  DateTimeRangeDateFieldValue copyWith({
-    DateTimeRange? dateTimeRange,
-  }) {
-    return DateTimeRangeDateFieldValue(
-      dateTimeRange: dateTimeRange ?? this.dateTimeRange,
-    );
   }
 
   @override

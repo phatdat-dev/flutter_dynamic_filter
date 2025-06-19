@@ -27,20 +27,14 @@ mixin _MyHomePageDataTableStateMixin on State<MyHomePage> {
                       child: DataTable(
                         columns: [
                           const DataColumn(label: Text("Index")),
-                          ...ExampleData.fields.map(
-                            (e) => DataColumn(label: Text(e.name)),
-                          ),
+                          ...ExampleData.fields.map((e) => DataColumn(label: Text(e.name))),
                         ],
                         rows: data
                             .map(
                               (e) => DataRow(
                                 cells: [
                                   DataCell(Text(data.indexOf(e).toString())),
-                                  ...ExampleData.fields.map(
-                                    (f) => DataCell(
-                                      Text(e[f.name]?.toString() ?? ""),
-                                    ),
-                                  ),
+                                  ...ExampleData.fields.map((f) => DataCell(Text(e[f.name]?.toString() ?? ""))),
                                 ],
                               ),
                             )

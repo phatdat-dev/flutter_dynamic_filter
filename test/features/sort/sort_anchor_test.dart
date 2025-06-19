@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../ultils.dart';
 
-late final List<Map<String, dynamic>> _data;
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -474,16 +473,7 @@ void main() {
   );
 }
 
-List<Map<String, dynamic>> _filterEngineSortOrder(
-  Set<FieldSortOrder> sortOrders,
-) {
-  final filterEngine = FilterEngine(
-    data: _data,
-    sortOrders: sortOrders,
-  );
-  final result = filterEngine.sortList();
-  return result;
-}
+late final List<Map<String, dynamic>> _data;
 
 void testCase({
   required Set<Field> fields,
@@ -526,4 +516,16 @@ void testCase({
     });
   });
   Printt.white(jsonEncode(runtimeData));
+}
+
+List<Map<String, dynamic>> _filterEngineSortOrder(
+  Set<FieldSortOrder> sortOrders,
+) {
+  final filterEngine = FilterEngine(
+    data: _data,
+    sortOrders: sortOrders,
+    valueExtractor: (Map<String, dynamic> item, String fieldName) {},
+  );
+  final result = filterEngine.sortList();
+  return result;
 }

@@ -1,4 +1,6 @@
-# Document Flutter Dynamic Filter
+# Flutter Dynamic Filter - Comprehensive Example
+
+This comprehensive example demonstrates all features of the Flutter Dynamic Filter package, including:
 
 # [Preview Link](https://phatdat-dev.github.io/flutter_dynamic_filter/) 🔗
 
@@ -173,3 +175,109 @@ final engine = FilterEngine(
 final result = engine.applyFilterAndSort();
 print(result);
 ```
+
+## 🚀 Features Demonstrated
+
+### 1. **All Field Types**
+
+- **Text**: Basic text filtering with contains, starts with, etc.
+- **Number**: Numeric comparisons (greater than, less than, etc.)
+- **Date**: Advanced date filtering with relative dates
+- **Checkbox**: Boolean filtering (checked/unchecked)
+- **SingleSelect/Status**: Single choice with colors and icons
+- **MultiSelect**: Multiple choice filtering
+- **User/CreatedBy/LastEditedBy**: User-based filtering
+- **Relation**: Reference filtering
+- **URL/Email/Phone**: Specialized text fields
+
+### 2. **Advanced Filtering**
+
+- **50+ Operators**: Comprehensive filtering options
+- **Nested Groups**: Complex AND/OR logic
+- **Current User**: Filter by current user
+- **Relative Dates**: "Past week", "Next month", etc.
+- **Custom Ranges**: Date ranges, number ranges
+
+### 3. **Multi-level Sorting**
+
+- Sort by multiple fields
+- Ascending/Descending order
+- Drag-and-drop reordering
+
+### 4. **Generic Type Support**
+
+- Works with any data type
+- Type-safe filtering
+- Custom value extractors
+
+### 5. **UI Features**
+
+- **Preset Filters**: Quick filter buttons
+- **Analytics Dashboard**: Real-time statistics
+- **Field Types Reference**: Complete documentation
+- **Responsive Design**: Works on all screen sizes
+
+## 📊 Sample Data
+
+The example uses 100 sample project tasks with:
+
+- 6 team members
+- 7 status types
+- 7 categories
+- 10 tags
+- 10 skills
+- Realistic dates and relationships
+
+## 🎯 Quick Start
+
+1. **Basic Filtering**:
+
+   - Click "Add Filter" button
+   - Select field type
+   - Choose operator
+   - Set value
+
+2. **Sorting**:
+
+   - Click "Sort" button
+   - Select fields to sort by
+   - Choose ascending/descending
+
+3. **Preset Filters**:
+
+   - Use quick filter chips
+   - "My Tasks", "Urgent Tasks", etc.
+
+4. **Analytics**:
+   - View real-time statistics
+   - Task completion rates
+   - Category distribution
+
+## 🔧 Customization
+
+The package is highly customizable:
+
+- Custom field types
+- Custom operators
+- Custom UI components
+- Custom value extractors
+- Custom validation
+
+## 📱 Responsive Design
+
+The example works on:
+
+- Desktop (full layout)
+- Tablet (adaptive layout)
+- Mobile (bottom sheets)
+
+## 🎨 Themes
+
+Supports:
+
+- Light/Dark themes
+- Material 3 design
+- Custom color schemes
+- Accessibility features
+
+This comprehensive example showcases the full power of Flutter Dynamic Filter for building advanced data filtering interfaces!
