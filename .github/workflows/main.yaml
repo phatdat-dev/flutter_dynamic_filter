@@ -36,7 +36,7 @@ jobs:
 
       - name: Build Flutter Web
         run: |
-          flutter build web --release
+          flutter build web --release --no-tree-shake-icons
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4.0.0 # dùng cái này để deploy lên github pages
