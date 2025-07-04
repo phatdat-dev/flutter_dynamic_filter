@@ -84,10 +84,10 @@ class FilterEngine<T> {
     if (allResults.isEmpty) return true;
 
     // Apply logic
-    switch (group.logic) {
-      case FilterLogic.and:
+    switch (group.mustMatch) {
+      case FilterMustMatch.and:
         return allResults.every((result) => result);
-      case FilterLogic.or:
+      case FilterMustMatch.or:
         return allResults.any((result) => result);
     }
   }
@@ -131,7 +131,7 @@ class FilterGroup {
   final String name;
 
   /// Logic to combine rules (AND/OR)
-  final FilterLogic logic;
+  final FilterMustMatch mustMatch;
 
   /// List of field filters to apply
   final List<FieldAdvancedFilter> rules;
@@ -141,7 +141,7 @@ class FilterGroup {
 
   FilterGroup({
     this.name = '',
-    this.logic = FilterLogic.and,
+    this.mustMatch = FilterMustMatch.and,
     this.rules = const [],
     this.subGroups = const [],
   });
@@ -149,7 +149,7 @@ class FilterGroup {
   factory FilterGroup.fromJson(Map<String, dynamic> json) {
     return FilterGroup(
       name: json['name'] ?? '',
-      logic: FilterLogic.values.byName(json['logic'] ?? 'and'),
+      mustMatch: FilterMustMatch.values.byName(json['mustMatch'] ?? 'and'),
       rules: (json['rules'] as List?)?.map((r) => FieldAdvancedFilter.fromJson(r)).toList() ?? [],
       subGroups: (json['subGroups'] as List?)?.map((g) => FilterGroup.fromJson(g)).toList() ?? [],
     );
@@ -158,11 +158,9 @@ class FilterGroup {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'logic': logic.name,
+      'mustMatch': mustMatch.name,
       'rules': rules.map((r) => r.toJson()).toList(),
       'subGroups': subGroups.map((g) => g.toJson()).toList(),
     };
   }
 }
-
-enum FilterLogic { and, or }
