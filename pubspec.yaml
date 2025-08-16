@@ -5,8 +5,8 @@ homepage: https://github.com/phatdat-dev/flutter_dynamic_filter
 # publish_to:
 
 environment:
-  sdk: "3.8.1"
-  flutter: "3.32.5"
+  sdk: "3.9.0"
+  flutter: "3.35.1"
 
 dependencies:
   flutter:
@@ -17,8 +17,8 @@ dependencies:
   collection: ^1.19.1
   equatable: ^2.0.7
   # state management
-  provider: ^6.1.2
-  flutter_svg: ^2.0.17
+  provider: ^6.1.5
+  flutter_svg: ^2.2.0
 
 dev_dependencies:
   flutter_test:
