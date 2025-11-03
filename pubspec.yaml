@@ -5,8 +5,8 @@ homepage: https://github.com/phatdat-dev/flutter_dynamic_filter
 # publish_to:
 
 environment:
-  sdk: "3.9.0"
-  flutter: "3.35.1"
+  sdk: ^3.9.2
+  flutter: ">=3.35.7"
 
 dependencies:
   flutter:
