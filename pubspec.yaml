@@ -1,12 +1,12 @@
 name: flutter_dynamic_filter
 description: "A Flutter package for creating dynamic filters in your apps. Easily customize and apply filters to display or manage data flexibly and efficiently."
-version: 1.0.4
+version: 1.0.5
 homepage: https://github.com/phatdat-dev/flutter_dynamic_filter
 # publish_to:
 
 environment:
-  sdk: ^3.9.2
-  flutter: ">=3.35.7"
+  sdk: ^3.10.4
+  flutter: ">=3.38.5"
 
 dependencies:
   flutter:
